@@ -1,0 +1,57 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "352eef89-7bab-4729-a546-38209367b2a9",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import os\n",
+    "\n",
+    "NFLUID_PROBES = 2000  # fluid nodes\n",
+    "NIO_PROBES = 100  # inlet nodes\n",
+    "\n",
+    "INLET_ID = 0  # inlet id\n",
+    "\n",
+    "NSTEP = 10000\n",
+    "SPACING = 0.0008\n",
+    "NFRAME = 500  # depends on the saving frequency of probes\n",
+    "NPOS = 6  # pos, mis, sdf, size\n",
+    "# NFEATURES = 10  # p, vel, stress\n",
+    "NFEATURES = 4  # p, vel\n",
+    "\n",
+    "if True:\n",
+    "    NSIM = 10\n",
+    "    DATADIR = os.path.join('/', 'home', 'sm', 'LEXMED', 'MEDLEA', 'VENTAI_DATA', 'Dataset_Propagative_10sims')\n",
+    "    BATCH_SIZE = 1\n",
+    "\n",
+    "else:\n",
+    "    NSIM = 1000\n",
+    "    DATADIR = os.path.join('/', 'home', 'sm', 'LEXMED', 'MEDLEA', 'VENTAI_DATA', 'Dataset_Propagative_1000sims')\n",
+    "    BATCH_SIZE = 32\n"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python (pyda3.9)",
+   "language": "python",
+   "name": "pyda3.9"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.9.19"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
