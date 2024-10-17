@@ -79,14 +79,16 @@ class DataPreparer:
         # Standardization
         scaler = StandardScaler()
         exclude_cols = ['year', 'month', 'day', 'hour', 'season']
+        pm_column = 'PM'
         num_cols = train_set.select_dtypes(include=[np.number]).columns.difference(exclude_cols)
-
+        pm_index = num_cols.get_loc(pm_column)  # Get the index of PM in the num_cols
+        
         train_set[num_cols] = scaler.fit_transform(train_set[num_cols])
         val_set[num_cols] = scaler.transform(val_set[num_cols])
         test_set[num_cols] = scaler.transform(test_set[num_cols])
 
         #return train_set, val_set, test_set
-        return train_set, val_set, test_set, scaler
+        return train_set, val_set, test_set, scaler, pm_index
 
     def prepare_data(self):
         # Load and clean data
@@ -96,7 +98,7 @@ class DataPreparer:
         processed_data = self.clean_and_process_data(raw_data)
 
         # Split and standardize
-        train_set, val_set, test_set, scaler = self.split_and_standardize_data(processed_data)
+        train_set, val_set, test_set, scaler, pm_index = self.split_and_standardize_data(processed_data)
 
         # Separate labels
         train_data = train_set.drop("PM", axis=1)
@@ -126,6 +128,7 @@ class DataPreparer:
         self.test_labels_tensor = torch.from_numpy(self.test_labels_tensor).float()
 
         self.scaler = scaler
+        self.pm_index = pm_index
 
     def sliding_window(self, data, labels, window_size, stride):
         data_windows = []
@@ -147,4 +150,4 @@ class DataPreparer:
         return (self.train_data_tensor, self.train_labels_tensor,
                 self.val_data_tensor, self.val_labels_tensor,
                 self.test_data_tensor, self.test_labels_tensor,
-                self.scaler)
+                self.scaler, self.pm_index)
