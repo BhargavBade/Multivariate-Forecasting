@@ -78,9 +78,10 @@ class DataPreparer:
 
         # Standardization
         scaler = StandardScaler()
-        exclude_cols = ['year', 'month', 'day', 'hour', 'season']
+        #exclude_cols = ['year', 'month', 'day', 'hour', 'season']
         pm_column = 'PM'
-        num_cols = train_set.select_dtypes(include=[np.number]).columns.difference(exclude_cols)
+        #num_cols = train_set.select_dtypes(include=[np.number]).columns.difference(exclude_cols)
+        num_cols = train_set.select_dtypes(include=[np.number]).columns
         pm_index = num_cols.get_loc(pm_column)  # Get the index of PM in the num_cols
         
         train_set[num_cols] = scaler.fit_transform(train_set[num_cols])
@@ -90,6 +91,27 @@ class DataPreparer:
         #return train_set, val_set, test_set
         return train_set, val_set, test_set, scaler, pm_index
 
+    def split_sequences(self, input_sequences, output_sequence, n_steps_in, n_steps_out):
+        #X, y = list(), list()  # instantiate X and y
+        X, y, past_pm25 = [], [], []
+        for i in range(len(input_sequences)):
+            # find the end of the input, output sequence
+            end_ix = i + n_steps_in
+            out_end_ix = end_ix + n_steps_out - 1
+            # check if we are beyond the dataset
+            if out_end_ix >= len(input_sequences):
+                break
+            # gather input and output of the pattern
+            seq_x = input_sequences[i:end_ix]
+            #seq_y = output_sequence[end_ix-1:out_end_ix]
+            seq_y = output_sequence[end_ix-1:out_end_ix]
+            # Extract PM2.5 values for the input sequence (aligned with the output)
+            pm25_past_values = output_sequence[i:end_ix]  # PM2.5 values in the past window
+            
+            X.append(seq_x), y.append(seq_y), past_pm25.append(pm25_past_values)
+        return np.array(X), np.array(y), np.array(past_pm25)
+
+    
     def prepare_data(self):
         # Load and clean data
         cities_data_path_list = os.listdir(self.data_dir)
@@ -110,35 +132,32 @@ class DataPreparer:
         test_data = test_set.drop("PM", axis=1)
         test_labels = test_set["PM"]
 
-        # Data windowing
-        window_size = params.window_size
-        stride = params.stride
-        self.train_data_tensor, self.train_labels_tensor = self.sliding_window(train_data, train_labels, window_size, stride)
-        self.val_data_tensor, self.val_labels_tensor = self.sliding_window(val_data, val_labels, window_size, stride)
-        self.test_data_tensor, self.test_labels_tensor = self.sliding_window(test_data, test_labels, window_size, stride)
 
-        # Convert all datasets to tensors
-        self.train_data_tensor = torch.from_numpy(self.train_data_tensor).float()
-        self.train_labels_tensor = torch.from_numpy(self.train_labels_tensor).float()
+        # Define parameters for the split_sequences
+        n_steps_in = params.n_steps_in  # Number of past time steps to use as input
+        n_steps_out = params.n_steps_out # Number of future time steps to predict
+    
+        # Apply split_sequences function to create the dataset structure
+        X_train, y_train, past_pm25_train = self.split_sequences(train_data, train_labels, n_steps_in, n_steps_out)
+        X_val, y_val, past_pm25_val = self.split_sequences(val_data, val_labels, n_steps_in, n_steps_out)
+        X_test, y_test, past_pm25_test = self.split_sequences(test_data, test_labels, n_steps_in, n_steps_out)
 
-        self.val_data_tensor = torch.from_numpy(self.val_data_tensor).float()
-        self.val_labels_tensor = torch.from_numpy(self.val_labels_tensor).float()
 
-        self.test_data_tensor = torch.from_numpy(self.test_data_tensor).float()
-        self.test_labels_tensor = torch.from_numpy(self.test_labels_tensor).float()
+        # Convert to tensors
+        self.train_data_tensor = torch.Tensor(X_train).float()
+        self.train_labels_tensor = torch.Tensor(y_train).float()
+        self.past_pm25_train = torch.Tensor(past_pm25_train).float()
+    
+        self.val_data_tensor = torch.Tensor(X_val).float()
+        self.val_labels_tensor = torch.Tensor(y_val).float()
+        self.past_pm25_val = torch.Tensor(past_pm25_val).float()
+    
+        self.test_data_tensor = torch.Tensor(X_test).float()
+        self.test_labels_tensor = torch.Tensor(y_test).float()
+        self.past_pm25_test = torch.Tensor(past_pm25_test).float()
 
         self.scaler = scaler
         self.pm_index = pm_index
-
-    def sliding_window(self, data, labels, window_size, stride):
-        data_windows = []
-        label_windows = []
-
-        for i in range(0, len(data) - window_size + 1, stride):
-            data_windows.append(data.iloc[i:i + window_size].values)
-            label_windows.append(labels.iloc[i:i + window_size].values)
-
-        return np.array(data_windows), np.array(label_windows)
 
     def get_pm_columns(self, data_frame):
         return [col for col in data_frame.columns if col.startswith('PM')]
@@ -148,6 +167,6 @@ class DataPreparer:
 
     def get_tensors(self):
         return (self.train_data_tensor, self.train_labels_tensor,
-                self.val_data_tensor, self.val_labels_tensor,
-                self.test_data_tensor, self.test_labels_tensor,
+                self.val_data_tensor, self.val_labels_tensor,self.past_pm25_val,
+                self.test_data_tensor, self.test_labels_tensor,self.past_pm25_test,
                 self.scaler, self.pm_index)

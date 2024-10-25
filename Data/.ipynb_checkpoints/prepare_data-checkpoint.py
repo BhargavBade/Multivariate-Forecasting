@@ -73,7 +73,7 @@ class DataPreparer:
 
     def split_and_standardize_data(self, data):
         # Split data
-        train_set, remaining_set = train_test_split(data, test_size=0.4, shuffle=False, random_state=42)
+        train_set, remaining_set = train_test_split(data, test_size=0.3, shuffle=False, random_state=42)
         val_set, test_set = train_test_split(remaining_set, test_size=0.75, shuffle=False, random_state=42)
 
         # Standardization
