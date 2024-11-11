@@ -93,8 +93,9 @@ class DataPreparer:
 
     def split_sequences(self, input_sequences, output_sequence, n_steps_in, n_steps_out):
         #X, y = list(), list()  # instantiate X and y
-        X, y, past_pm25 = [], [], []
-        for i in range(len(input_sequences)):
+        X, y, past_pm25, datetime_info = [], [], [], []
+        #for i in range(len(input_sequences)):
+        for i in range(0, len(input_sequences), n_steps_out):  # Step by n_steps_out    
             # find the end of the input, output sequence
             end_ix = i + n_steps_in
             out_end_ix = end_ix + n_steps_out - 1
@@ -102,14 +103,23 @@ class DataPreparer:
             if out_end_ix >= len(input_sequences):
                 break
             # gather input and output of the pattern
-            seq_x = input_sequences[i:end_ix]
+            seq_x = input_sequences.iloc[i:end_ix, :].values
             #seq_y = output_sequence[end_ix-1:out_end_ix]
             seq_y = output_sequence[end_ix-1:out_end_ix]
             # Extract PM2.5 values for the input sequence (aligned with the output)
             pm25_past_values = output_sequence[i:end_ix]  # PM2.5 values in the past window
             
-            X.append(seq_x), y.append(seq_y), past_pm25.append(pm25_past_values)
-        return np.array(X), np.array(y), np.array(past_pm25)
+            # Extract datetime information (first 4 columns) for the current input window
+            datetime_window = input_sequences.iloc[end_ix-1:out_end_ix, :4].values  # Convert to numpy array
+            
+            # Append the sequences to their respective lists
+            X.append(seq_x)
+            y.append(seq_y)
+            past_pm25.append(pm25_past_values)
+            datetime_info.append(datetime_window)
+            
+        # Convert lists to numpy arrays for compatibility
+        return np.array(X), np.array(y), np.array(past_pm25), np.array(datetime_info)
 
     
     def prepare_data(self):
@@ -138,23 +148,28 @@ class DataPreparer:
         n_steps_out = params.n_steps_out # Number of future time steps to predict
     
         # Apply split_sequences function to create the dataset structure
-        X_train, y_train, past_pm25_train = self.split_sequences(train_data, train_labels, n_steps_in, n_steps_out)
-        X_val, y_val, past_pm25_val = self.split_sequences(val_data, val_labels, n_steps_in, n_steps_out)
-        X_test, y_test, past_pm25_test = self.split_sequences(test_data, test_labels, n_steps_in, n_steps_out)
+        X_train, y_train, past_pm25_train, train_dt = self.split_sequences(train_data, train_labels, n_steps_in, n_steps_out)
+        X_val, y_val, past_pm25_val, val_dt = self.split_sequences(val_data, val_labels, n_steps_in, n_steps_out)
+        X_test, y_test, past_pm25_test, test_dt = self.split_sequences(test_data, test_labels, n_steps_in, n_steps_out)
 
 
         # Convert to tensors
         self.train_data_tensor = torch.Tensor(X_train).float()
         self.train_labels_tensor = torch.Tensor(y_train).float()
         self.past_pm25_train = torch.Tensor(past_pm25_train).float()
+        self.train_pm_dt = torch.Tensor(train_dt).float()
     
         self.val_data_tensor = torch.Tensor(X_val).float()
         self.val_labels_tensor = torch.Tensor(y_val).float()
         self.past_pm25_val = torch.Tensor(past_pm25_val).float()
+        self.val_pm_dt = torch.Tensor(val_dt).float()
+    
     
         self.test_data_tensor = torch.Tensor(X_test).float()
         self.test_labels_tensor = torch.Tensor(y_test).float()
         self.past_pm25_test = torch.Tensor(past_pm25_test).float()
+        self.test_pm_dt = torch.Tensor(test_dt).float()
+        
 
         self.scaler = scaler
         self.pm_index = pm_index
@@ -167,6 +182,6 @@ class DataPreparer:
 
     def get_tensors(self):
         return (self.train_data_tensor, self.train_labels_tensor,
-                self.val_data_tensor, self.val_labels_tensor,self.past_pm25_val,
-                self.test_data_tensor, self.test_labels_tensor,self.past_pm25_test,
+                self.val_data_tensor, self.val_labels_tensor, self.past_pm25_val, self.val_pm_dt,
+                self.test_data_tensor, self.test_labels_tensor, self.past_pm25_test, self.test_pm_dt,
                 self.scaler, self.pm_index)
