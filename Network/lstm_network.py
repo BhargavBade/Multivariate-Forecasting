@@ -9,13 +9,20 @@ class LSTMModel(nn.Module):
 
         # LSTM layer
         self.lstm = nn.LSTM(input_size, hidden_size, num_layers, batch_first=True, dropout=dropout)
-        self.fc_1 = nn.Linear(hidden_size, 128) # fully connected 
-        self.fc_2 = nn.Linear(128, output_size) # fully connected last layer
-        self.relu = nn.ReLU()
-
-        # Fully connected layer (for output)
-        self.fc = nn.Linear(hidden_size, output_size)
-
+        
+        # Optional layer normalization
+        self.layer_norm = nn.LayerNorm(hidden_size)
+        
+        # Fully connected layers
+        self.fc_1 = nn.Linear(hidden_size, 32) # fully connected 
+        self.fc_2 = nn.Linear(32, output_size) # fully connected last layer
+        
+        # #Activation and Dropout
+        # self.relu = nn.ReLU()
+        # self.tanh = nn.Tanh()
+        self.sigmoid = nn.Sigmoid()
+        self.dropout_fc = nn.Dropout(dropout)
+        
     def forward(self, x):
         # Initialize hidden state with zeros
         h0 = torch.zeros(self.num_layers, x.size(0), self.hidden_size).to(x.device)
@@ -24,15 +31,18 @@ class LSTMModel(nn.Module):
         # Forward propagate the LSTM
         output, (hn, cn) = self.lstm(x, (h0, c0))
 
-        # Use the output of the last time step (not all layers or flattened output)
-        out = output[:, -1, :]  # take the last output of the sequence
+        # # Use the output of the last time step (not all layers or flattened output)
+        # out = output[:, -1, :]  # take the last output of the sequence
+        
+        # Apply layer normalization
+        out = self.layer_norm(output[:, -1, :])  # take the last output and normalize
 
-        #hn = hn.view(-1, self.hidden_size) # reshaping the data for Dense layer next
-        #out = self.relu(hn)
 
-        out = self.relu(out)
+        out = self.sigmoid(out)
         out = self.fc_1(out) # first dense
-        out = self.relu(out) # relu
+        out = self.dropout_fc(out)
+        out = self.sigmoid(out) # relu
         out = self.fc_2(out) # final output
+        
         return out
 

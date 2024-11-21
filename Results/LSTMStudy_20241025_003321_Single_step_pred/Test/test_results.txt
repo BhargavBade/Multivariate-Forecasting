@@ -1,3 +1,0 @@
-Test Loss (MSE): 0.3349
-Test Predictions Shape: (3705, 1)
-Test Actual Labels Shape: (3705, 1)

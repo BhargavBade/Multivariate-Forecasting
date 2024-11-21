@@ -5,6 +5,7 @@ import numpy as np
 import math
 import torch
 from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import MinMaxScaler
 from sklearn.model_selection import train_test_split
 import sys
 import importlib
@@ -42,7 +43,7 @@ class DataPreparer:
         features_columns = self.get_main_features_columns(data)
         features_columns.append('PM')
         features_columns = [col for col in features_columns if col != 'PM']
-
+ 
         new_data_rows_list = []
         for idx, (index, row) in enumerate(data.iterrows()):
             mn = row[pm_cols].mean()
@@ -50,7 +51,7 @@ class DataPreparer:
                 temp_row = {col: row[col] for col in features_columns}
                 temp_row['PM'] = mn
                 new_data_rows_list.append(temp_row)
-
+        
         new_data = pd.DataFrame(new_data_rows_list)
 
         # One-hot encode 'cbwd' and other steps
@@ -66,8 +67,12 @@ class DataPreparer:
             df_encoded[col] = df_encoded[col].replace({'True': 1, 'False': 0}).astype(int)
 
         
-        #Exclude No column from the dataframe. It does not carry any weight in the dataframe.
-        data = df_encoded.drop(['No'], axis=1)
+        # #Exclude No column from the dataframe. It does not carry any weight in the dataframe.
+        # data = df_encoded.drop(['No'], axis=1)
+               
+        # Drop all unnecessary columns at once
+        columns_to_drop = ['No', 'year', 'month', 'day', 'hour']
+        data = df_encoded.drop(columns=columns_to_drop, axis=1)
         
         return data
 
@@ -77,7 +82,8 @@ class DataPreparer:
         val_set, test_set = train_test_split(remaining_set, test_size=0.75, shuffle=False, random_state=42)
 
         # Standardization
-        scaler = StandardScaler()
+        # scaler = StandardScaler()
+        scaler = MinMaxScaler(feature_range=(0, 1))
         #exclude_cols = ['year', 'month', 'day', 'hour', 'season']
         pm_column = 'PM'
         #num_cols = train_set.select_dtypes(include=[np.number]).columns.difference(exclude_cols)
@@ -92,10 +98,8 @@ class DataPreparer:
         return train_set, val_set, test_set, scaler, pm_index
 
     def split_sequences(self, input_sequences, output_sequence, n_steps_in, n_steps_out):
-        #X, y = list(), list()  # instantiate X and y
         X, y, past_pm25, datetime_info = [], [], [], []
-        #for i in range(len(input_sequences)):
-        for i in range(0, len(input_sequences), n_steps_out):  # Step by n_steps_out    
+        for i in range(0, len(input_sequences), n_steps_out):  # Step by n_steps_out  
             # find the end of the input, output sequence
             end_ix = i + n_steps_in
             out_end_ix = end_ix + n_steps_out - 1
@@ -104,7 +108,6 @@ class DataPreparer:
                 break
             # gather input and output of the pattern
             seq_x = input_sequences.iloc[i:end_ix, :].values
-            #seq_y = output_sequence[end_ix-1:out_end_ix]
             seq_y = output_sequence[end_ix-1:out_end_ix]
             # Extract PM2.5 values for the input sequence (aligned with the output)
             pm25_past_values = output_sequence[i:end_ix]  # PM2.5 values in the past window

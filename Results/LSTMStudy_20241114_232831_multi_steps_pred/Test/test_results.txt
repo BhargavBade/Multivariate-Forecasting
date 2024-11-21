@@ -1,0 +1,3 @@
+Test Loss (MSE): 0.0443
+Test Predictions Shape: (896, 4)
+Test Actual Labels Shape: (896, 4)
