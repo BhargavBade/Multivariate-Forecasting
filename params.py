@@ -10,4 +10,7 @@ hidden_size = 64 # number of hidden units in LSTM
 output_size = 1  # output size
 num_layers = 3   # number of LSTM layers
 lr = 0.001
-num_epochs = 200
+num_epochs = 100
+
+wandb_name = "LSTM_Model"
+wandb_project = "Multivar_TS_LSTM_Forecasting"

@@ -13,6 +13,9 @@ import torch.optim as optim
 from datetime import datetime
 from Network.lstm_network import LSTMModel
 from matplotlib.ticker import MaxNLocator
+
+import wandb
+
 # In[35]:
 
 import importlib
@@ -60,6 +63,18 @@ shutil.copy(config_file_path, config_destination_path)
 
 print(f'Config file saved to: {config_destination_path}')
 
+
+#######################################################################################
+# WandB VARIABLES
+
+current_time = datetime.now().strftime("%Y%m%d_%H%M%S")
+wandb_name = params.wandb_name
+wandb_project = params.wandb_project
+
+wandb_model_name = wandb_name + f'_multivar_{current_time}' + \
+            '_bs' + str(params.batch_size) + '_lr' + str(params.lr) + '_ep' + \
+            str(params.num_epochs)  +'.pt'
+                      
 # In[40]:
 
 import sys
@@ -170,6 +185,24 @@ train_results_file = os.path.join(train_folder, 'best_test_loss.txt')
 
 #Train the model
 
+wandb.init(  
+      project= wandb_project,    
+      config={
+        "epochs": params.num_epochs,
+        "bs": params.batch_size,
+        "lr": params.lr,
+        "lookback Horz": params.n_steps_in,
+        "num_layers": params.num_layers,
+        "latent size": params.hidden_size,
+        })
+
+config = wandb.config
+wandb.run.name = wandb_model_name
+
+# Set device (better readability)
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+model.to(device)
+
 num_epochs = params.num_epochs
 
 # Initialize list to store loss values
@@ -198,10 +231,12 @@ for epoch in range(num_epochs):
         optimizer.step()
 
         running_loss += loss.item()
-
+        
+        
     # Compute average loss for the epoch
     avg_loss = running_loss / len(train_loader)
     loss_values.append(avg_loss)  # Store average loss for this epoch
+    wandb.log({"train/epoch_loss": avg_loss, "epoch": epoch + 1})
 
     print(f'Epoch [{epoch + 1}/{num_epochs}], Loss: {running_loss / len(train_loader):.4f}')
 
@@ -225,7 +260,7 @@ for epoch in range(num_epochs):
         # Compute average test loss for the epoch
         avg_test_loss = running_test_loss / len(test_loader)
         test_losses.append(avg_test_loss)
-
+        wandb.log({"test/epoch_loss": avg_test_loss})
         # Print test loss for the current evaluation
         print(f'-- Evaluation after Epoch [{epoch + 1}/{num_epochs}], Test Loss: {avg_test_loss:.4f}')
         
@@ -416,9 +451,9 @@ plt.show()
 plt.close()
 
 ########################################################################################
+########################################################################################
 
 # Plotting TEST SET predicitions as sequences for SINGLE-STEP predictor.
-
 
 # Select 5 random sequences of length 100
 sequence_length = 500
