@@ -1,0 +1,7 @@
+Test Loss before reverse scaling(RMSE) : 0.0784
+Test Loss after reverse scaling(RMSE) : 67.1662
+Test Predictions Shape: (11264, 1)
+Test Actual Labels Shape: (11264, 1)
+
+#The features not included in the run: Humi, cbwd
+

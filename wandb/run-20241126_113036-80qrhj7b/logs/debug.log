@@ -13,3 +13,13 @@
 config: {'epochs': 100, 'bs': 32, 'lr': 0.001, 'lookback Horz': 72, 'num_layers': 3, 'latent size': 64}
 2024-11-26 11:30:36,321 INFO    MainThread:5384 [wandb_init.py:init():669] starting backend
 2024-11-26 11:30:36,321 INFO    MainThread:5384 [wandb_init.py:init():673] sending inform_init request
+2024-11-26 11:30:36,321 INFO    MainThread:5384 [backend.py:_multiprocessing_setup():104] multiprocessing start_methods=spawn, using: spawn
+2024-11-26 11:30:36,325 INFO    MainThread:5384 [wandb_init.py:init():686] backend started and connected
+2024-11-26 11:30:36,331 INFO    MainThread:5384 [wandb_init.py:init():781] updated telemetry
+2024-11-26 11:30:36,384 INFO    MainThread:5384 [wandb_init.py:init():814] communicating run to backend with 90.0 second timeout
+2024-11-26 11:30:36,901 INFO    MainThread:5384 [wandb_init.py:init():867] starting run threads in backend
+2024-11-26 11:30:37,329 INFO    MainThread:5384 [wandb_run.py:_console_start():2456] atexit reg
+2024-11-26 11:30:37,329 INFO    MainThread:5384 [wandb_run.py:_redirect():2305] redirect: wrap_raw
+2024-11-26 11:30:37,331 INFO    MainThread:5384 [wandb_run.py:_redirect():2370] Wrapping output streams.
+2024-11-26 11:30:37,332 INFO    MainThread:5384 [wandb_run.py:_redirect():2395] Redirects installed.
+2024-11-26 11:30:37,333 INFO    MainThread:5384 [wandb_init.py:init():911] run started, returning control to user process

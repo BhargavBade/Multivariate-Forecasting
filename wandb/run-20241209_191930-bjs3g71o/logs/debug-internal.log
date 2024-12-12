@@ -1,0 +1,9 @@
+{"time":"2024-12-09T19:19:30.1965628+01:00","level":"INFO","msg":"using version","core version":"0.18.7"}
+{"time":"2024-12-09T19:19:30.1965628+01:00","level":"INFO","msg":"created symlink","path":"C:\\Users\\BHARGAV BADE\\Multivar LSTM\\wandb\\run-20241209_191930-bjs3g71o\\logs\\debug-core.log"}
+{"time":"2024-12-09T19:19:30.6016559+01:00","level":"INFO","msg":"created new stream","id":"bjs3g71o"}
+{"time":"2024-12-09T19:19:30.602171+01:00","level":"INFO","msg":"stream: started","id":"bjs3g71o"}
+{"time":"2024-12-09T19:19:30.602171+01:00","level":"INFO","msg":"writer: Do: started","stream_id":"bjs3g71o"}
+{"time":"2024-12-09T19:19:30.602171+01:00","level":"INFO","msg":"sender: started","stream_id":"bjs3g71o"}
+{"time":"2024-12-09T19:19:30.602171+01:00","level":"INFO","msg":"handler: started","stream_id":"bjs3g71o"}
+{"time":"2024-12-09T19:19:31.2092354+01:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2024-12-09T20:37:02.0867493+01:00","level":"INFO","msg":"api: retrying HTTP error","status":502,"url":"https://api.wandb.ai/files/bhargav-bade/Multivar_TS_LSTM_Forecasting/bjs3g71o/file_stream"}

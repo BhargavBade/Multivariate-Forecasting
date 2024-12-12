@@ -13,7 +13,6 @@ import torch.optim as optim
 from datetime import datetime
 from Network.lstm_network import LSTMModel
 from matplotlib.ticker import MaxNLocator
-
 import wandb
 
 # In[35]:
@@ -79,9 +78,14 @@ wandb_model_name = wandb_name + f'_multivar_{current_time}' + \
 
 import sys
 sys.path.append('./Data')  # Add the current directory to Python path
-import prepare_data01
-importlib.reload(prepare_data01)
-from prepare_data01 import DataPreparer
+# import prepare_data01
+# importlib.reload(prepare_data01)
+# from prepare_data01 import DataPreparer
+############################################################################### 
+
+import prepare_data02
+importlib.reload(prepare_data02)
+from prepare_data02 import DataPreparer
 
 # In[41]:
 
@@ -168,8 +172,8 @@ model = LSTMModel(input_size, hidden_size, output_size, num_layers)
 model = model.to('cuda' if torch.cuda.is_available() else 'cpu')
 
 # Loss and optimizer
-#criterion = nn.MSELoss()
-criterion = nn.L1Loss() # Mean Absolute Error (MAE)
+criterion = nn.MSELoss()
+# criterion = nn.L1Loss() # Mean Absolute Error (MAE)
 optimizer = optim.Adam(model.parameters(), lr = params.lr)
 
 # In[49]:
@@ -224,8 +228,10 @@ for epoch in range(num_epochs):
         outputs = model(data)
 
         # Compute the loss (squeeze the outputs so they match the shape of labels)
-        loss = criterion(outputs, labels)
-
+        # loss = criterion(outputs, labels)
+        
+        loss = torch.sqrt(criterion(outputs, labels))
+        
         # Backward pass and optimization
         loss.backward()
         optimizer.step()
@@ -253,7 +259,9 @@ for epoch in range(num_epochs):
                 outputs = model(data)
 
                 # Compute the loss
-                loss = criterion(outputs, labels)
+                # loss = criterion(outputs, labels)
+                
+                loss = torch.sqrt(criterion(outputs, labels))
 
                 running_test_loss += loss.item()
 
@@ -323,8 +331,9 @@ with torch.no_grad():
         predictions = model(data)
         
         # Compute the validation loss (MSE)
-        #val_loss = criterion(predictions.squeeze(-1), labels)
-        val_loss = criterion(predictions, labels)
+        # val_loss = criterion(predictions, labels)
+        
+        val_loss = torch.sqrt(criterion(predictions, labels))
         
         # Accumulate the total validation loss
         total_val_loss += val_loss.item()
@@ -335,7 +344,7 @@ with torch.no_grad():
 
 # Calculate the average MSE over the entire validation set
 avg_val_loss = total_val_loss / len(val_loader)
-print(f'Validation Loss (MSE): {avg_val_loss:.4f}')
+print(f'Validation Loss (RMSE): {avg_val_loss:.4f}')
 
 # Concatenate all predictions and actual labels into a single array
 val_predictions = np.concatenate(val_predictions, axis=0)
@@ -343,7 +352,7 @@ val_actual_labels = np.concatenate(val_actual_labels, axis=0)
 
 # Write the validation loss to a text file
 with open(val_results_file, 'w') as f:
-    f.write(f'Validation Loss (MSE): {avg_val_loss:.4f}\n')
+    f.write(f'Validation Loss (RMSE): {avg_val_loss:.4f}\n')
     f.write(f'Validation Predictions Shape: {val_predictions.shape}\n')
     f.write(f'Validation Actual Labels Shape: {val_actual_labels.shape}\n')
 
@@ -402,8 +411,10 @@ with torch.no_grad():
         predictions = model(data)
         
         # Compute the validation loss (MSE)
-        #val_loss = criterion(predictions.squeeze(-1), labels)
-        test_loss = criterion(predictions, labels)
+
+        # test_loss = criterion(predictions, labels)
+        
+        test_loss = torch.sqrt(criterion(predictions, labels))
         
         # Accumulate the total validation loss
         total_test_loss += test_loss.item()
@@ -412,19 +423,34 @@ with torch.no_grad():
         test_predictions.append(predictions.cpu().numpy())  # Move predictions to CPU and store
         test_actual_labels.append(labels.cpu().numpy())     # Move labels to CPU and store
 
-# Calculate the average MSE over the entire validation set
+# Calculate the average MAE over the entire test set
 avg_test_loss = total_test_loss / len(test_loader)
-print(f'Avg Test Loss (MSE): {avg_test_loss:.4f}')
+print(f'Avg Test Loss before reverse scaling(RMSE): {avg_test_loss:.4f}')
 
 # Concatenate all predictions and actual labels into a single array
 test_predictions = np.concatenate(test_predictions, axis=0)
 test_actual_labels = np.concatenate(test_actual_labels, axis=0)
 
+# Reverse scaling the prediction PM and actual PM values
+# Access min and max values for reverse scaling
+mins = scaler.data_min_
+maxs = scaler.data_max_
+
+# Reverse scaling for PM predictions and labels
+test_predictions_original_scale = test_predictions * (maxs[pm_index] - mins[pm_index]) + mins[pm_index]
+test_actual_labels_original_scale = test_actual_labels * (maxs[pm_index] - mins[pm_index]) + mins[pm_index]
+
+# Calculate the Mean Absolute Error (MAE) after reverse scaling
+MAE_after_reverse_scaling = np.mean(np.abs(test_predictions_original_scale - test_actual_labels_original_scale))
+print(f'Avg Test Loss after reverse scaling (RMSE): {MAE_after_reverse_scaling:.4f}')
+
+
 # Write the validation loss to a text file
 with open(test_results_file, 'w') as f:
-    f.write(f'Test Loss (MSE): {avg_val_loss:.4f}\n')
-    f.write(f'Test Predictions Shape: {val_predictions.shape}\n')
-    f.write(f'Test Actual Labels Shape: {val_actual_labels.shape}\n')
+    f.write(f'Test Loss before reverse scaling(RMSE) : {avg_test_loss:.4f}\n')
+    f.write(f'Test Loss after reverse scaling(RMSE) : {MAE_after_reverse_scaling:.4f}\n')
+    f.write(f'Test Predictions Shape: {test_predictions.shape}\n')
+    f.write(f'Test Actual Labels Shape: {test_actual_labels.shape}\n')
 
 print(f'Test results saved to: {test_results_file}')        
         
@@ -433,8 +459,8 @@ print(f'Test results saved to: {test_results_file}')
 # Plotting All test predictions at a time
 # Plotting predicted vs actual values
 plt.figure(figsize=(14, 7))
-plt.plot(test_actual_labels, label='Test Actual PM2.5', color='blue', alpha=0.7)
-plt.plot(test_predictions, label='Test Predicted PM2.5', color='orange', alpha=0.7)
+plt.plot(test_actual_labels_original_scale, label='Test Actual PM2.5', color='blue', alpha=0.7)
+plt.plot(test_predictions_original_scale, label='Test Predicted PM2.5', color='orange', alpha=0.7)
 plt.title('Test Predicted vs Test Actual PM2.5 Values')
 plt.xlabel('Date-Time')
 plt.ylabel('PM2.5 Value')
@@ -455,9 +481,13 @@ plt.close()
 
 # Plotting TEST SET predicitions as sequences for SINGLE-STEP predictor.
 
+# Set a fixed random seed for reproducibility
+random_seed = 42
+random.seed(random_seed)
+
 # Select 5 random sequences of length 100
 sequence_length = 500
-num_sequences = 10
+num_sequences = 15
 total_length = len(test_predictions)
 
 # Make sure we can select sequences within the available length
@@ -472,10 +502,10 @@ for i, start_idx in enumerate(random_indices):
     plt.figure(figsize=(8, 6))
     
     end_idx = start_idx + sequence_length
-    
-    plt.plot(range(sequence_length), test_actual_labels[start_idx:end_idx],
+      
+    plt.plot(range(sequence_length), test_actual_labels_original_scale[start_idx:end_idx],
               label=f'Actual PM2.5 (Seq {i+1})', alpha=0.7)
-    plt.plot(range(sequence_length), test_predictions[start_idx:end_idx],
+    plt.plot(range(sequence_length), test_predictions_original_scale[start_idx:end_idx],
               label=f'Predicted PM2.5 (Seq {i+1})', alpha=0.7)
     
     # Set title and labels

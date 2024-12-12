@@ -1,0 +1,8 @@
+{"time":"2024-12-09T15:08:01.008952+01:00","level":"INFO","msg":"using version","core version":"0.18.7"}
+{"time":"2024-12-09T15:08:01.008952+01:00","level":"INFO","msg":"created symlink","path":"C:\\Users\\BHARGAV BADE\\Multivar LSTM\\wandb\\run-20241209_150800-eb2c9fn5\\logs\\debug-core.log"}
+{"time":"2024-12-09T15:08:01.817924+01:00","level":"INFO","msg":"created new stream","id":"eb2c9fn5"}
+{"time":"2024-12-09T15:08:01.817924+01:00","level":"INFO","msg":"stream: started","id":"eb2c9fn5"}
+{"time":"2024-12-09T15:08:01.817924+01:00","level":"INFO","msg":"writer: Do: started","stream_id":"eb2c9fn5"}
+{"time":"2024-12-09T15:08:01.817924+01:00","level":"INFO","msg":"handler: started","stream_id":"eb2c9fn5"}
+{"time":"2024-12-09T15:08:01.817924+01:00","level":"INFO","msg":"sender: started","stream_id":"eb2c9fn5"}
+{"time":"2024-12-09T15:08:02.4139361+01:00","level":"INFO","msg":"Starting system monitor"}

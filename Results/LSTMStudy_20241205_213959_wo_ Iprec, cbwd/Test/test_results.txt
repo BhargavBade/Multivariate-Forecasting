@@ -1,0 +1,10 @@
+Test Loss before reverse scaling(RMSE) : 0.0598
+Test Loss after reverse scaling(RMSE) : 47.9906
+Test Predictions Shape: (11264, 1)
+Test Actual Labels Shape: (11264, 1)
+
+# Features not included in the run:
+ 	Iprec, cbwd
+
+columns_to_drop = ['No', 'year', 'month', 'day', 'hour', 
+                  'Iprec', 'cbwd_NE', 'cbwd_NW', 'cbwd_SE']

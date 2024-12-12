@@ -1,0 +1,257 @@
+Epoch [1/200], Loss: 0.0860
+Epoch [2/200], Loss: 0.0849
+Epoch [3/200], Loss: 0.0842
+Epoch [4/200], Loss: 0.0838
+Epoch [5/200], Loss: 0.0848
+-- Evaluation after Epoch [5/200], Test Loss: 0.0781
+New best test loss: 0.0781. Saving model.
+Epoch [6/200], Loss: 0.0836
+Epoch [7/200], Loss: 0.0830
+Epoch [8/200], Loss: 0.0826
+Epoch [9/200], Loss: 0.0825
+Epoch [10/200], Loss: 0.0824
+-- Evaluation after Epoch [10/200], Test Loss: 0.0803
+Epoch [11/200], Loss: 0.0822
+Epoch [12/200], Loss: 0.0821
+Epoch [13/200], Loss: 0.0820
+Epoch [14/200], Loss: 0.0820
+Epoch [15/200], Loss: 0.0819
+-- Evaluation after Epoch [15/200], Test Loss: 0.0830
+Epoch [16/200], Loss: 0.0818
+Epoch [17/200], Loss: 0.0818
+Epoch [18/200], Loss: 0.0818
+Epoch [19/200], Loss: 0.0817
+Epoch [20/200], Loss: 0.0817
+-- Evaluation after Epoch [20/200], Test Loss: 0.0856
+Epoch [21/200], Loss: 0.0816
+Epoch [22/200], Loss: 0.0815
+Epoch [23/200], Loss: 0.0815
+Epoch [24/200], Loss: 0.0815
+Epoch [25/200], Loss: 0.0814
+-- Evaluation after Epoch [25/200], Test Loss: 0.0868
+Epoch [26/200], Loss: 0.0814
+Epoch [27/200], Loss: 0.0814
+Epoch [28/200], Loss: 0.0814
+Epoch [29/200], Loss: 0.0813
+Epoch [30/200], Loss: 0.0813
+-- Evaluation after Epoch [30/200], Test Loss: 0.0862
+Epoch [31/200], Loss: 0.0812
+Epoch [32/200], Loss: 0.0812
+Epoch [33/200], Loss: 0.0812
+Epoch [34/200], Loss: 0.0812
+Epoch [35/200], Loss: 0.0811
+-- Evaluation after Epoch [35/200], Test Loss: 0.0852
+Epoch [36/200], Loss: 0.0811
+Epoch [37/200], Loss: 0.0811
+Epoch [38/200], Loss: 0.0810
+Epoch [39/200], Loss: 0.0810
+Epoch [40/200], Loss: 0.0810
+-- Evaluation after Epoch [40/200], Test Loss: 0.0837
+Epoch [41/200], Loss: 0.0763
+Epoch [42/200], Loss: 0.0684
+Epoch [43/200], Loss: 0.0673
+Epoch [44/200], Loss: 0.0671
+Epoch [45/200], Loss: 0.0669
+-- Evaluation after Epoch [45/200], Test Loss: 0.0949
+Epoch [46/200], Loss: 0.0664
+Epoch [47/200], Loss: 0.0673
+Epoch [48/200], Loss: 0.0663
+Epoch [49/200], Loss: 0.0658
+Epoch [50/200], Loss: 0.0651
+-- Evaluation after Epoch [50/200], Test Loss: 0.0971
+Epoch [51/200], Loss: 0.0648
+Epoch [52/200], Loss: 0.0645
+Epoch [53/200], Loss: 0.0641
+Epoch [54/200], Loss: 0.0638
+Epoch [55/200], Loss: 0.0636
+-- Evaluation after Epoch [55/200], Test Loss: 0.0944
+Epoch [56/200], Loss: 0.0630
+Epoch [57/200], Loss: 0.0626
+Epoch [58/200], Loss: 0.0621
+Epoch [59/200], Loss: 0.0618
+Epoch [60/200], Loss: 0.0618
+-- Evaluation after Epoch [60/200], Test Loss: 0.0951
+Epoch [61/200], Loss: 0.0621
+Epoch [62/200], Loss: 0.0605
+Epoch [63/200], Loss: 0.0603
+Epoch [64/200], Loss: 0.0598
+Epoch [65/200], Loss: 0.0598
+-- Evaluation after Epoch [65/200], Test Loss: 0.0849
+Epoch [66/200], Loss: 0.0609
+Epoch [67/200], Loss: 0.0594
+Epoch [68/200], Loss: 0.0608
+Epoch [69/200], Loss: 0.0598
+Epoch [70/200], Loss: 0.0584
+-- Evaluation after Epoch [70/200], Test Loss: 0.0781
+New best test loss: 0.0781. Saving model.
+Epoch [71/200], Loss: 0.0586
+Epoch [72/200], Loss: 0.0600
+Epoch [73/200], Loss: 0.0573
+Epoch [74/200], Loss: 0.0571
+Epoch [75/200], Loss: 0.0566
+-- Evaluation after Epoch [75/200], Test Loss: 0.0704
+New best test loss: 0.0704. Saving model.
+Epoch [76/200], Loss: 0.0569
+Epoch [77/200], Loss: 0.0558
+Epoch [78/200], Loss: 0.0552
+Epoch [79/200], Loss: 0.0558
+Epoch [80/200], Loss: 0.0551
+-- Evaluation after Epoch [80/200], Test Loss: 0.0696
+New best test loss: 0.0696. Saving model.
+Epoch [81/200], Loss: 0.0569
+Epoch [82/200], Loss: 0.0542
+Epoch [83/200], Loss: 0.0536
+Epoch [84/200], Loss: 0.0539
+Epoch [85/200], Loss: 0.0533
+-- Evaluation after Epoch [85/200], Test Loss: 0.0701
+Epoch [86/200], Loss: 0.0531
+Epoch [87/200], Loss: 0.0530
+Epoch [88/200], Loss: 0.0555
+Epoch [89/200], Loss: 0.0565
+Epoch [90/200], Loss: 0.0546
+-- Evaluation after Epoch [90/200], Test Loss: 0.0698
+Epoch [91/200], Loss: 0.0525
+Epoch [92/200], Loss: 0.0532
+Epoch [93/200], Loss: 0.0520
+Epoch [94/200], Loss: 0.0516
+Epoch [95/200], Loss: 0.0513
+-- Evaluation after Epoch [95/200], Test Loss: 0.0693
+New best test loss: 0.0693. Saving model.
+Epoch [96/200], Loss: 0.0538
+Epoch [97/200], Loss: 0.0515
+Epoch [98/200], Loss: 0.0504
+Epoch [99/200], Loss: 0.0509
+Epoch [100/200], Loss: 0.0498
+-- Evaluation after Epoch [100/200], Test Loss: 0.0720
+Epoch [101/200], Loss: 0.0499
+Epoch [102/200], Loss: 0.0494
+Epoch [103/200], Loss: 0.0515
+Epoch [104/200], Loss: 0.0501
+Epoch [105/200], Loss: 0.0485
+-- Evaluation after Epoch [105/200], Test Loss: 0.0682
+New best test loss: 0.0682. Saving model.
+Epoch [106/200], Loss: 0.0492
+Epoch [107/200], Loss: 0.0482
+Epoch [108/200], Loss: 0.0485
+Epoch [109/200], Loss: 0.0477
+Epoch [110/200], Loss: 0.0476
+-- Evaluation after Epoch [110/200], Test Loss: 0.0639
+New best test loss: 0.0639. Saving model.
+Epoch [111/200], Loss: 0.0487
+Epoch [112/200], Loss: 0.0478
+Epoch [113/200], Loss: 0.0466
+Epoch [114/200], Loss: 0.0473
+Epoch [115/200], Loss: 0.0461
+-- Evaluation after Epoch [115/200], Test Loss: 0.0682
+Epoch [116/200], Loss: 0.0458
+Epoch [117/200], Loss: 0.0472
+Epoch [118/200], Loss: 0.0456
+Epoch [119/200], Loss: 0.0472
+Epoch [120/200], Loss: 0.0466
+-- Evaluation after Epoch [120/200], Test Loss: 0.0652
+Epoch [121/200], Loss: 0.0450
+Epoch [122/200], Loss: 0.0446
+Epoch [123/200], Loss: 0.0443
+Epoch [124/200], Loss: 0.0441
+Epoch [125/200], Loss: 0.0445
+-- Evaluation after Epoch [125/200], Test Loss: 0.0640
+Epoch [126/200], Loss: 0.0440
+Epoch [127/200], Loss: 0.0447
+Epoch [128/200], Loss: 0.0437
+Epoch [129/200], Loss: 0.0427
+Epoch [130/200], Loss: 0.0431
+-- Evaluation after Epoch [130/200], Test Loss: 0.0623
+New best test loss: 0.0623. Saving model.
+Epoch [131/200], Loss: 0.0433
+Epoch [132/200], Loss: 0.0432
+Epoch [133/200], Loss: 0.0426
+Epoch [134/200], Loss: 0.0421
+Epoch [135/200], Loss: 0.0422
+-- Evaluation after Epoch [135/200], Test Loss: 0.0600
+New best test loss: 0.0600. Saving model.
+Epoch [136/200], Loss: 0.0415
+Epoch [137/200], Loss: 0.0411
+Epoch [138/200], Loss: 0.0414
+Epoch [139/200], Loss: 0.0413
+Epoch [140/200], Loss: 0.0411
+-- Evaluation after Epoch [140/200], Test Loss: 0.0588
+New best test loss: 0.0588. Saving model.
+Epoch [141/200], Loss: 0.0399
+Epoch [142/200], Loss: 0.0399
+Epoch [143/200], Loss: 0.0403
+Epoch [144/200], Loss: 0.0401
+Epoch [145/200], Loss: 0.0414
+-- Evaluation after Epoch [145/200], Test Loss: 0.0615
+Epoch [146/200], Loss: 0.0411
+Epoch [147/200], Loss: 0.0398
+Epoch [148/200], Loss: 0.0388
+Epoch [149/200], Loss: 0.0400
+Epoch [150/200], Loss: 0.0398
+-- Evaluation after Epoch [150/200], Test Loss: 0.0580
+New best test loss: 0.0580. Saving model.
+Epoch [151/200], Loss: 0.0386
+Epoch [152/200], Loss: 0.0404
+Epoch [153/200], Loss: 0.0400
+Epoch [154/200], Loss: 0.0385
+Epoch [155/200], Loss: 0.0383
+-- Evaluation after Epoch [155/200], Test Loss: 0.0585
+Epoch [156/200], Loss: 0.0379
+Epoch [157/200], Loss: 0.0382
+Epoch [158/200], Loss: 0.0376
+Epoch [159/200], Loss: 0.0377
+Epoch [160/200], Loss: 0.0379
+-- Evaluation after Epoch [160/200], Test Loss: 0.0584
+Epoch [161/200], Loss: 0.0371
+Epoch [162/200], Loss: 0.0382
+Epoch [163/200], Loss: 0.0373
+Epoch [164/200], Loss: 0.0372
+Epoch [165/200], Loss: 0.0371
+-- Evaluation after Epoch [165/200], Test Loss: 0.0602
+Epoch [166/200], Loss: 0.0379
+Epoch [167/200], Loss: 0.0378
+Epoch [168/200], Loss: 0.0364
+Epoch [169/200], Loss: 0.0366
+Epoch [170/200], Loss: 0.0361
+-- Evaluation after Epoch [170/200], Test Loss: 0.0603
+Epoch [171/200], Loss: 0.0365
+Epoch [172/200], Loss: 0.0363
+Epoch [173/200], Loss: 0.0358
+Epoch [174/200], Loss: 0.0357
+Epoch [175/200], Loss: 0.0354
+-- Evaluation after Epoch [175/200], Test Loss: 0.0647
+Epoch [176/200], Loss: 0.0354
+Epoch [177/200], Loss: 0.0357
+Epoch [178/200], Loss: 0.0354
+Epoch [179/200], Loss: 0.0352
+Epoch [180/200], Loss: 0.0347
+-- Evaluation after Epoch [180/200], Test Loss: 0.0608
+Epoch [181/200], Loss: 0.0354
+Epoch [182/200], Loss: 0.0347
+Epoch [183/200], Loss: 0.0350
+Epoch [184/200], Loss: 0.0353
+Epoch [185/200], Loss: 0.0343
+-- Evaluation after Epoch [185/200], Test Loss: 0.0608
+Epoch [186/200], Loss: 0.0342
+Epoch [187/200], Loss: 0.0342
+Epoch [188/200], Loss: 0.0344
+Epoch [189/200], Loss: 0.0344
+Epoch [190/200], Loss: 0.0342
+-- Evaluation after Epoch [190/200], Test Loss: 0.0588
+Epoch [191/200], Loss: 0.0348
+Epoch [192/200], Loss: 0.0343
+Epoch [193/200], Loss: 0.0339
+Epoch [194/200], Loss: 0.0341
+Epoch [195/200], Loss: 0.0361
+-- Evaluation after Epoch [195/200], Test Loss: 0.0584
+Epoch [196/200], Loss: 0.0340
+Epoch [197/200], Loss: 0.0330
+Epoch [198/200], Loss: 0.0341
+Epoch [199/200], Loss: 0.0344
+Epoch [200/200], Loss: 0.0345
+-- Evaluation after Epoch [200/200], Test Loss: 0.0608
+Loading the best model from checkpoint with test loss: 0.0580
+Validation Loss (RMSE): 0.0395
+Validation results saved to: ./Results\LSTMStudy_20241204_153303\Val\validation_results.txt
+Avg Test Loss before reverse scaling(RMSE): 0.0580
+Avg Test Loss after reverse scaling (RMSE): 46.3898
+Test results saved to: ./Results\LSTMStudy_20241204_153303\Test\test_results.txt

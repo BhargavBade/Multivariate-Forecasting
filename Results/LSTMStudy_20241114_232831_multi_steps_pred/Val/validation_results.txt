@@ -1,3 +1,0 @@
-Validation Loss (MSE): 0.0443
-Validation Predictions Shape: (896, 4)
-Validation Actual Labels Shape: (896, 4)

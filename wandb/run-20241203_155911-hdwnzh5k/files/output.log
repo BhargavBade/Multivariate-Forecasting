@@ -1,0 +1,86 @@
+Epoch [1/10], Loss: 0.0760
+Epoch [2/10], Loss: 0.0670
+Epoch [3/10], Loss: 0.0537
+Epoch [4/10], Loss: 0.0515
+Epoch [5/10], Loss: 0.0511
+-- Evaluation after Epoch [5/10], Test Loss: 0.0752
+New best test loss: 0.0752. Saving model.
+Epoch [6/10], Loss: 0.0498
+Epoch [7/10], Loss: 0.0495
+Epoch [8/10], Loss: 0.0495
+Epoch [9/10], Loss: 0.0496
+Epoch [10/10], Loss: 0.0497
+-- Evaluation after Epoch [10/10], Test Loss: 0.0886
+Loading the best model from checkpoint with test loss: 0.0752
+Validation Loss (MSE): 0.0832
+Validation results saved to: ./Results\LSTMStudy_20241203_155806\Val\validation_results.txt
+Avg Test Loss before reverse scaling(MAE): 0.0752
+Avg Test Loss after reverse scaling (MAE): 74.6269
+Test results saved to: ./Results\LSTMStudy_20241203_155806\Test\test_results.txt
+[4;33mReloaded modules[24m: Network.lstm_network, study_folder, prepare_data02, params[0m
+72
+64
+./Results\LSTMStudy_20241203_161050
+./Results\LSTMStudy_20241203_161050\Train
+Config file saved to: ./Results\LSTMStudy_20241203_161050\params.py
+./01_PM2.5 Chinese Weather data\BeijingPM20100101_20151231.csv
+PM index during scaling is: 8
+Train data tensor shape: torch.Size([35411, 72, 11])
+Train labels tensor shape: torch.Size([35411, 1])
+Val data tensor shape: torch.Size([3729, 72, 11])
+Val labels tensor shape: torch.Size([3729, 1])
+Test data tensor shape: torch.Size([11334, 72, 11])
+Test labels tensor shape: torch.Size([11334, 1])
+Epoch [1/10], Loss: 0.0573
+Epoch [2/10], Loss: 0.0525
+Epoch [3/10], Loss: 0.0513
+Epoch [4/10], Loss: 0.0509
+Epoch [5/10], Loss: 0.0501
+-- Evaluation after Epoch [5/10], Test Loss: 0.0979
+New best test loss: 0.0979. Saving model.
+Epoch [6/10], Loss: 0.0497
+Epoch [7/10], Loss: 0.0492
+Epoch [8/10], Loss: 0.0486
+Epoch [9/10], Loss: 0.0482
+Epoch [10/10], Loss: 0.0481
+-- Evaluation after Epoch [10/10], Test Loss: 0.0849
+New best test loss: 0.0849. Saving model.
+Loading the best model from checkpoint with test loss: 0.0849
+Validation Loss (MSE): 0.0891
+Validation results saved to: ./Results\LSTMStudy_20241203_161050\Val\validation_results.txt
+Avg Test Loss before reverse scaling(MAE): 0.0849
+Avg Test Loss after reverse scaling (MAE): 84.2663
+Test results saved to: ./Results\LSTMStudy_20241203_161050\Test\test_results.txt
+[4;33mReloaded modules[24m: Network.lstm_network, study_folder, params, prepare_data02[0m
+72
+64
+./Results\LSTMStudy_20241203_161300
+./Results\LSTMStudy_20241203_161300\Train
+Config file saved to: ./Results\LSTMStudy_20241203_161300\params.py
+./01_PM2.5 Chinese Weather data\BeijingPM20100101_20151231.csv
+PM index during scaling is: 8
+Train data tensor shape: torch.Size([35411, 72, 11])
+Train labels tensor shape: torch.Size([35411, 1])
+Val data tensor shape: torch.Size([3729, 72, 11])
+Val labels tensor shape: torch.Size([3729, 1])
+Test data tensor shape: torch.Size([11334, 72, 11])
+Test labels tensor shape: torch.Size([11334, 1])
+Epoch [1/10], Loss: 0.0619
+Epoch [2/10], Loss: 0.0529
+Epoch [3/10], Loss: 0.0515
+Epoch [4/10], Loss: 0.0506
+Epoch [5/10], Loss: 0.0506
+-- Evaluation after Epoch [5/10], Test Loss: 0.0851
+New best test loss: 0.0851. Saving model.
+Epoch [6/10], Loss: 0.0497
+Epoch [7/10], Loss: 0.0489
+Epoch [8/10], Loss: 0.0479
+Epoch [9/10], Loss: 0.0479
+Epoch [10/10], Loss: 0.0469
+-- Evaluation after Epoch [10/10], Test Loss: 0.0852
+Loading the best model from checkpoint with test loss: 0.0851
+Validation Loss (MSE): 0.0990
+Validation results saved to: ./Results\LSTMStudy_20241203_161300\Val\validation_results.txt
+Avg Test Loss before reverse scaling(MAE): 0.0851
+Avg Test Loss after reverse scaling (MAE): 84.5293
+Test results saved to: ./Results\LSTMStudy_20241203_161300\Test\test_results.txt

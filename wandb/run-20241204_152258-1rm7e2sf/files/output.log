@@ -1,0 +1,29 @@
+[4;33mReloaded modules[24m: Network.lstm_network, study_folder, prepare_data02, params[0m
+96
+64
+./Results\LSTMStudy_20241204_152325
+./Results\LSTMStudy_20241204_152325\Train
+Config file saved to: ./Results\LSTMStudy_20241204_152325\params.py
+./01_PM2.5 Chinese Weather data\BeijingPM20100101_20151231.csv
+PM index during scaling is: 4
+Train data tensor shape: torch.Size([35387, 96, 4])
+Train labels tensor shape: torch.Size([35387, 1])
+Val data tensor shape: torch.Size([3705, 96, 4])
+Val labels tensor shape: torch.Size([3705, 1])
+Test data tensor shape: torch.Size([11310, 96, 4])
+Test labels tensor shape: torch.Size([11310, 1])
+[4;33mReloaded modules[24m: Network.lstm_network, study_folder, prepare_data02, params[0m
+96
+64
+./Results\LSTMStudy_20241204_152503
+./Results\LSTMStudy_20241204_152503\Train
+Config file saved to: ./Results\LSTMStudy_20241204_152503\params.py
+./01_PM2.5 Chinese Weather data\BeijingPM20100101_20151231.csv
+[34m[1mwandb[0m: [33mWARNING[0m Fatal error while uploading data. Some run data will not be synced, but it will still be written to disk. Use `wandb sync` at the end of the run to try uploading.
+PM index during scaling is: 4
+Train data tensor shape: torch.Size([35387, 96, 4])
+Train labels tensor shape: torch.Size([35387, 1])
+Val data tensor shape: torch.Size([3705, 96, 4])
+Val labels tensor shape: torch.Size([3705, 1])
+Test data tensor shape: torch.Size([11310, 96, 4])
+Test labels tensor shape: torch.Size([11310, 1])

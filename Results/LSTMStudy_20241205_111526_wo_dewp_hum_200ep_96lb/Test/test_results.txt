@@ -1,0 +1,11 @@
+Test Loss before reverse scaling(RMSE) : 0.0781
+Test Loss after reverse scaling(RMSE) : 66.7871
+Test Predictions Shape: (11264, 1)
+Test Actual Labels Shape: (11264, 1)
+
+#Features dropped in this run
+
+columns_to_drop = ['No', 'year', 'month', 'day', 'hour', 
+		   'season', 'DEWP', 'HUMI', 'Iws',
+                   'precipitation', 'Iprec', 'cbwd_NE', 
+	           'cbwd_NW', 'cbwd_SE']

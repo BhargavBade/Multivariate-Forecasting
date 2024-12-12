@@ -1,0 +1,9 @@
+{"time":"2024-12-03T16:35:21.7539176+01:00","level":"INFO","msg":"using version","core version":"0.18.7"}
+{"time":"2024-12-03T16:35:21.7539176+01:00","level":"INFO","msg":"created symlink","path":"C:\\Users\\BHARGAV BADE\\Multivar LSTM\\wandb\\run-20241203_163521-i9xnx3km\\logs\\debug-core.log"}
+{"time":"2024-12-03T16:35:22.1322605+01:00","level":"INFO","msg":"created new stream","id":"i9xnx3km"}
+{"time":"2024-12-03T16:35:22.1334348+01:00","level":"INFO","msg":"stream: started","id":"i9xnx3km"}
+{"time":"2024-12-03T16:35:22.133939+01:00","level":"INFO","msg":"sender: started","stream_id":"i9xnx3km"}
+{"time":"2024-12-03T16:35:22.1334348+01:00","level":"INFO","msg":"handler: started","stream_id":"i9xnx3km"}
+{"time":"2024-12-03T16:35:22.133939+01:00","level":"INFO","msg":"writer: Do: started","stream_id":"i9xnx3km"}
+{"time":"2024-12-03T16:35:22.6317523+01:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2024-12-03T16:51:49.3564079+01:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/files/bhargav-bade/Multivar_TS_LSTM_Forecasting/i9xnx3km/file_stream\": dial tcp: lookup api.wandb.ai: no such host"}

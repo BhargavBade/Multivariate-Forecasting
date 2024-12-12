@@ -1,0 +1,16 @@
+{"time":"2024-12-09T17:07:15.6946314+01:00","level":"INFO","msg":"using version","core version":"0.18.7"}
+{"time":"2024-12-09T17:07:15.6946314+01:00","level":"INFO","msg":"created symlink","path":"C:\\Users\\BHARGAV BADE\\Multivar LSTM\\wandb\\run-20241209_170715-4cxb5qi9\\logs\\debug-core.log"}
+{"time":"2024-12-09T17:07:16.3094149+01:00","level":"INFO","msg":"created new stream","id":"4cxb5qi9"}
+{"time":"2024-12-09T17:07:16.3106177+01:00","level":"INFO","msg":"stream: started","id":"4cxb5qi9"}
+{"time":"2024-12-09T17:07:16.3111214+01:00","level":"INFO","msg":"writer: Do: started","stream_id":"4cxb5qi9"}
+{"time":"2024-12-09T17:07:16.3111214+01:00","level":"INFO","msg":"sender: started","stream_id":"4cxb5qi9"}
+{"time":"2024-12-09T17:07:16.3116614+01:00","level":"INFO","msg":"handler: started","stream_id":"4cxb5qi9"}
+{"time":"2024-12-09T17:07:16.7047535+01:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2024-12-09T17:46:52.1336086+01:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/graphql\": context deadline exceeded (Client.Timeout exceeded while awaiting headers)"}
+{"time":"2024-12-09T17:46:52.2188403+01:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/files/bhargav-bade/Multivar_TS_LSTM_Forecasting/4cxb5qi9/file_stream\": context deadline exceeded"}
+{"time":"2024-12-09T17:46:52.4213281+01:00","level":"WARN","msg":"sender: taking a long time","seconds":829.0824665,"work":"WorkRecord(*service_go_proto.Request_StopStatus); Control(local:true mailbox_slot:\"qe85kz677wq9\" connection_id:\"127.0.0.1:57005\")"}
+{"time":"2024-12-09T17:46:54.8652029+01:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/graphql\": read tcp 192.168.0.51:57008->35.186.228.49:443: wsarecv: An existing connection was forcibly closed by the remote host."}
+{"time":"2024-12-09T17:46:59.2779805+01:00","level":"INFO","msg":"sender: succeeded after taking longer than expected","seconds":836.2438565,"work":"WorkRecord(*service_go_proto.Request_StopStatus); Control(local:true mailbox_slot:\"qe85kz677wq9\" connection_id:\"127.0.0.1:57005\")"}
+{"time":"2024-12-09T18:51:24.9397613+01:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/files/bhargav-bade/Multivar_TS_LSTM_Forecasting/4cxb5qi9/file_stream\": dial tcp: lookup api.wandb.ai: no such host"}
+{"time":"2024-12-09T18:51:26.5065762+01:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/graphql\": read tcp 192.168.0.51:57228->35.186.228.49:443: wsarecv: An existing connection was forcibly closed by the remote host."}
+{"time":"2024-12-09T19:08:24.7930709+01:00","level":"INFO","msg":"api: retrying HTTP error","status":502,"url":"https://api.wandb.ai/files/bhargav-bade/Multivar_TS_LSTM_Forecasting/4cxb5qi9/file_stream"}

@@ -1,0 +1,9 @@
+{"time":"2024-12-09T15:36:50.6990955+01:00","level":"INFO","msg":"using version","core version":"0.18.7"}
+{"time":"2024-12-09T15:36:50.6990955+01:00","level":"INFO","msg":"created symlink","path":"C:\\Users\\BHARGAV BADE\\Multivar LSTM\\wandb\\run-20241209_153650-4nde34tk\\logs\\debug-core.log"}
+{"time":"2024-12-09T15:36:51.1618086+01:00","level":"INFO","msg":"created new stream","id":"4nde34tk"}
+{"time":"2024-12-09T15:36:51.1637983+01:00","level":"INFO","msg":"stream: started","id":"4nde34tk"}
+{"time":"2024-12-09T15:36:51.1650396+01:00","level":"INFO","msg":"writer: Do: started","stream_id":"4nde34tk"}
+{"time":"2024-12-09T15:36:51.1651106+01:00","level":"INFO","msg":"sender: started","stream_id":"4nde34tk"}
+{"time":"2024-12-09T15:36:51.1645307+01:00","level":"INFO","msg":"handler: started","stream_id":"4nde34tk"}
+{"time":"2024-12-09T15:36:51.8384266+01:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2024-12-09T16:36:24.1297459+01:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/graphql\": read tcp 192.168.0.51:55866->35.186.228.49:443: wsarecv: An existing connection was forcibly closed by the remote host."}

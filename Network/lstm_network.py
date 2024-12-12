@@ -31,9 +31,6 @@ class LSTMModel(nn.Module):
         # Forward propagate the LSTM
         output, (hn, cn) = self.lstm(x, (h0, c0))
 
-        # # Use the output of the last time step (not all layers or flattened output)
-        # out = output[:, -1, :]  # take the last output of the sequence
-        
         # Apply layer normalization
         out = self.layer_norm(output[:, -1, :])  # take the last output and normalize
 
