@@ -39,8 +39,9 @@ class DataPreparer:
         data = self.load_data(sample_data_path)
         
         # Select only alternate samples (2, 4, 6, ...)
-        #data = data.iloc[1::2].reset_index(drop=True)
-        data = data.iloc[:int(0.5 * len(data))].reset_index(drop=True)
+        data = data.iloc[1::2].reset_index(drop=True)
+        
+        #data = data.iloc[:int(0.5 * len(data))].reset_index(drop=True)
 
         # Create a single PM column and perform feature engineering
         pm_cols = self.get_pm_columns(data)
@@ -79,8 +80,7 @@ class DataPreparer:
         #                    'DEWP', 'HUMI', 'PRES', 'TEMP', 'Iws', 'precipitation',
         #                    'Iprec', 'cbwd_NE', 'cbwd_NW', 'cbwd_SE']
         
-        columns_to_drop = ['No', 'year', 'month', 'day', 'hour', 'season', 'Iws', 
-                           'precipitation', 'Iprec', 'cbwd_NE', 'cbwd_NW', 'cbwd_SE']
+        columns_to_drop = ['No', 'year', 'month', 'day', 'hour']
         
         data = df_encoded.drop(columns=columns_to_drop, axis=1)
         
