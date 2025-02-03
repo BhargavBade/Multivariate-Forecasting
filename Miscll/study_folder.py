@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 def create_study_folder(base_dir='./Results'):
     # Get current DateTime and format it for the folder name
     current_time = datetime.now().strftime("%Y%m%d_%H%M%S")
-    study_folder = os.path.join(base_dir, f'LSTMStudy_{current_time}')
+    study_folder = os.path.join(base_dir, f'Informer_Study_{current_time}')
     
     # Create the folder if it doesn't exist
     if not os.path.exists(study_folder):

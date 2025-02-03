@@ -1,0 +1,290 @@
+Epoch [1/21], Loss: 0.3678
+Epoch [2/21], Loss: 0.2207
+Epoch [3/21], Loss: 0.1438
+Epoch [4/21], Loss: 0.1673
+Epoch [5/21], Loss: 0.2414
+New best training loss: 0.2414. Saving model based on training loss.
+-- Evaluation after Epoch [5/21], Test Loss: 0.1515
+Epoch [6/21], Loss: 0.1130
+Epoch [7/21], Loss: 0.1640
+Epoch [8/21], Loss: 0.1329
+Epoch [9/21], Loss: 0.1648
+Epoch [10/21], Loss: 0.1524
+New best training loss: 0.1524. Saving model based on training loss.
+-- Evaluation after Epoch [10/21], Test Loss: 0.1042
+Epoch [11/21], Loss: 0.1020
+Epoch [12/21], Loss: 0.0847
+Epoch [13/21], Loss: 0.1275
+Epoch [14/21], Loss: 0.0967
+Epoch [15/21], Loss: 0.1041
+New best training loss: 0.1041. Saving model based on training loss.
+-- Evaluation after Epoch [15/21], Test Loss: 0.0886
+New best test loss: 0.0886. Saving model.
+Epoch [16/21], Loss: 0.0740
+Epoch [17/21], Loss: 0.0852
+Epoch [18/21], Loss: 0.1228
+Epoch [19/21], Loss: 0.1089
+Epoch [20/21], Loss: 0.0840
+New best training loss: 0.0840. Saving model based on training loss.
+-- Evaluation after Epoch [20/21], Test Loss: 0.1397
+Epoch [21/21], Loss: 0.0998
+Loading the best model from checkpoint with train loss: 0.0840
+Validation Loss (RMSE): 0.1401
+Avg Test Loss after val reverse scaling (RMSE): 128.7869
+Validation results saved to: ./Results\Informer_Study_20250128_110320\Val\validation_results.txt
+Avg Test Loss before reverse scaling(RMSE): 0.0879
+Avg Test Loss after reverse scaling (RMSE): 78.3255
+Test results saved to: ./Results\Informer_Study_20250128_110320\Test\test_results.txt
+[4;33mReloaded modules[24m: Network.models, Network.utils, Network.utils.masking, Network.models.encoder, Network.models.decoder, Network.models.attn, Network.models.embed, Network.models.model, study_folder, prepare_data_inf, params_informer[0m
+240
+64
+./Results\Informer_Study_20250128_112515
+./Results\Informer_Study_20250128_112515\Train
+Config file saved to: ./Results\Informer_Study_20250128_112515\params_informer.py
+./01_PM2.5 Chinese Weather data\BeijingPM20100101_20151231.csv
+Range of PM values: 975.0 (Min: 5.0, Max: 980.0)
+Avg of PM values: 95.34986005597762
+PM index during scaling is: 8
+Train data tensor shape: torch.Size([1510, 240, 11])
+Train labels tensor shape: torch.Size([1510, 1, 1])
+Val data tensor shape: torch.Size([511, 240, 11])
+Val labels tensor shape: torch.Size([511, 1, 1])
+Test data tensor shape: torch.Size([511, 240, 11])
+Test labels tensor shape: torch.Size([511, 1, 1])
+Epoch [1/15], Loss: 0.3136
+Epoch [2/15], Loss: 0.1706
+Epoch [3/15], Loss: 0.2553
+Epoch [4/15], Loss: 0.1247
+Epoch [5/15], Loss: 0.1892
+New best training loss: 0.1892. Saving model based on training loss.
+-- Evaluation after Epoch [5/15], Test Loss: 0.1266
+Epoch [6/15], Loss: 0.1478
+Epoch [7/15], Loss: 0.1272
+Epoch [8/15], Loss: 0.1480
+Epoch [9/15], Loss: 0.1328
+Epoch [10/15], Loss: 0.1013
+New best training loss: 0.1013. Saving model based on training loss.
+-- Evaluation after Epoch [10/15], Test Loss: 0.1241
+Epoch [11/15], Loss: 0.1393
+Epoch [12/15], Loss: 0.1421
+Epoch [13/15], Loss: 0.1046
+Epoch [14/15], Loss: 0.0866
+Epoch [15/15], Loss: 0.0825
+New best training loss: 0.0825. Saving model based on training loss.
+-- Evaluation after Epoch [15/15], Test Loss: 0.1360
+New best test loss: 0.1360. Saving model.
+Loading the best model from checkpoint with train loss: 0.0825
+Validation Loss (RMSE): 0.1366
+Avg Test Loss after val reverse scaling (RMSE): 125.8872
+Validation results saved to: ./Results\Informer_Study_20250128_112515\Val\validation_results.txt
+Avg Test Loss before reverse scaling(RMSE): 0.1332
+Avg Test Loss after reverse scaling (RMSE): 122.6731
+Test results saved to: ./Results\Informer_Study_20250128_112515\Test\test_results.txt
+[4;33mReloaded modules[24m: Network.models, Network.utils, Network.utils.masking, Network.models.encoder, Network.models.decoder, Network.models.attn, Network.models.embed, Network.models.model, study_folder, params_informer, prepare_data_inf[0m
+192
+[4;33mReloaded modules[24m: Network.models, Network.utils, Network.utils.masking, Network.models.encoder, Network.models.decoder, Network.models.attn, Network.models.embed, Network.models.model, params_informer[0m
+192
+./Results\Informer_Study_20250128_114545
+./Results\Informer_Study_20250128_114545\Train
+Config file saved to: ./Results\Informer_Study_20250128_114545\params_informer.py
+./01_PM2.5 Chinese Weather data\BeijingPM20100101_20151231.csv
+Range of PM values: 993.0 (Min: 1.0, Max: 994.0)
+Avg of PM values: 99.28948758584256
+PM index during scaling is: 8
+Train data tensor shape: torch.Size([20567, 192, 11])
+Train labels tensor shape: torch.Size([20567, 1, 1])
+Val data tensor shape: torch.Size([8706, 192, 11])
+Val labels tensor shape: torch.Size([8706, 1, 1])
+Test data tensor shape: torch.Size([8706, 192, 11])
+Test labels tensor shape: torch.Size([8706, 1, 1])
+[4;33mReloaded modules[24m: Network.models, Network.utils, Network.utils.masking, Network.models.encoder, Network.models.decoder, Network.models.attn, Network.models.embed, Network.models.model, study_folder, params_informer, prepare_data_inf[0m
+192
+./Results\Informer_Study_20250128_114726
+./Results\Informer_Study_20250128_114726\Train
+Config file saved to: ./Results\Informer_Study_20250128_114726\params_informer.py
+./01_PM2.5 Chinese Weather data\BeijingPM20100101_20151231.csv
+Range of PM values: 993.0 (Min: 1.0, Max: 994.0)
+Avg of PM values: 99.28948758584256
+PM index during scaling is: 8
+Train data tensor shape: torch.Size([20567, 192, 11])
+Train labels tensor shape: torch.Size([20567, 1, 1])
+Val data tensor shape: torch.Size([8706, 192, 11])
+Val labels tensor shape: torch.Size([8706, 1, 1])
+Test data tensor shape: torch.Size([8706, 192, 11])
+Test labels tensor shape: torch.Size([8706, 1, 1])
+Epoch [1/100], Loss: 0.2265
+Epoch [2/100], Loss: 0.1157
+Epoch [3/100], Loss: 0.0912
+Epoch [4/100], Loss: 0.0819
+Epoch [5/100], Loss: 0.0798
+New best training loss: 0.0798. Saving model based on training loss.
+-- Evaluation after Epoch [5/100], Test Loss: 0.0698
+Epoch [6/100], Loss: 0.0728
+Epoch [7/100], Loss: 0.0788
+Epoch [8/100], Loss: 0.0702
+Epoch [9/100], Loss: 0.0700
+Epoch [10/100], Loss: 0.0689
+New best training loss: 0.0689. Saving model based on training loss.
+-- Evaluation after Epoch [10/100], Test Loss: 0.0668
+Epoch [11/100], Loss: 0.0648
+Epoch [12/100], Loss: 0.0666
+Epoch [13/100], Loss: 0.0688
+Epoch [14/100], Loss: 0.0619
+Epoch [15/100], Loss: 0.0612
+New best training loss: 0.0612. Saving model based on training loss.
+-- Evaluation after Epoch [15/100], Test Loss: 0.1132
+New best test loss: 0.1132. Saving model.
+Epoch [16/100], Loss: 0.0620
+Epoch [17/100], Loss: 0.0558
+Epoch [18/100], Loss: 0.0529
+Epoch [19/100], Loss: 0.0515
+Epoch [20/100], Loss: 0.0507
+New best training loss: 0.0507. Saving model based on training loss.
+-- Evaluation after Epoch [20/100], Test Loss: 0.0777
+New best test loss: 0.0777. Saving model.
+Epoch [21/100], Loss: 0.0526
+Epoch [22/100], Loss: 0.0545
+Epoch [23/100], Loss: 0.0583
+Epoch [24/100], Loss: 0.0534
+Epoch [25/100], Loss: 0.0539
+-- Evaluation after Epoch [25/100], Test Loss: 0.0779
+Epoch [26/100], Loss: 0.0508
+Epoch [27/100], Loss: 0.0482
+Epoch [28/100], Loss: 0.0456
+Epoch [29/100], Loss: 0.0442
+Epoch [30/100], Loss: 0.0461
+New best training loss: 0.0461. Saving model based on training loss.
+-- Evaluation after Epoch [30/100], Test Loss: 0.0791
+Epoch [31/100], Loss: 0.0471
+Epoch [32/100], Loss: 0.0456
+Epoch [33/100], Loss: 0.0424
+Epoch [34/100], Loss: 0.0414
+Epoch [35/100], Loss: 0.0383
+New best training loss: 0.0383. Saving model based on training loss.
+-- Evaluation after Epoch [35/100], Test Loss: 0.0754
+New best test loss: 0.0754. Saving model.
+Epoch [36/100], Loss: 0.0386
+Epoch [37/100], Loss: 0.0391
+Epoch [38/100], Loss: 0.0392
+Epoch [39/100], Loss: 0.0366
+Epoch [40/100], Loss: 0.0376
+New best training loss: 0.0376. Saving model based on training loss.
+-- Evaluation after Epoch [40/100], Test Loss: 0.0837
+Epoch [41/100], Loss: 0.0375
+Epoch [42/100], Loss: 0.0346
+Epoch [43/100], Loss: 0.0359
+Epoch [44/100], Loss: 0.0345
+Epoch [45/100], Loss: 0.0340
+New best training loss: 0.0340. Saving model based on training loss.
+-- Evaluation after Epoch [45/100], Test Loss: 0.0787
+Epoch [46/100], Loss: 0.0334
+Epoch [47/100], Loss: 0.0340
+Epoch [48/100], Loss: 0.0345
+Epoch [49/100], Loss: 0.0330
+Epoch [50/100], Loss: 0.0329
+New best training loss: 0.0329. Saving model based on training loss.
+-- Evaluation after Epoch [50/100], Test Loss: 0.0878
+Epoch [51/100], Loss: 0.0345
+Epoch [52/100], Loss: 0.0360
+Epoch [53/100], Loss: 0.0357
+Epoch [54/100], Loss: 0.0326
+Epoch [55/100], Loss: 0.0303
+New best training loss: 0.0303. Saving model based on training loss.
+-- Evaluation after Epoch [55/100], Test Loss: 0.0763
+Epoch [56/100], Loss: 0.0301
+Epoch [57/100], Loss: 0.0311
+Epoch [58/100], Loss: 0.0320
+Epoch [59/100], Loss: 0.0319
+Epoch [60/100], Loss: 0.0312
+-- Evaluation after Epoch [60/100], Test Loss: 0.1237
+Epoch [61/100], Loss: 0.0339
+Epoch [62/100], Loss: 0.0325
+Epoch [63/100], Loss: 0.0302
+Epoch [64/100], Loss: 0.0320
+Epoch [65/100], Loss: 0.0279
+New best training loss: 0.0279. Saving model based on training loss.
+-- Evaluation after Epoch [65/100], Test Loss: 0.0841
+Epoch [66/100], Loss: 0.0273
+Epoch [67/100], Loss: 0.0288
+Epoch [68/100], Loss: 0.0309
+Epoch [69/100], Loss: 0.0300
+Epoch [70/100], Loss: 0.0276
+New best training loss: 0.0276. Saving model based on training loss.
+-- Evaluation after Epoch [70/100], Test Loss: 0.0708
+New best test loss: 0.0708. Saving model.
+Epoch [71/100], Loss: 0.0303
+Epoch [72/100], Loss: 0.0292
+Epoch [73/100], Loss: 0.0305
+Epoch [74/100], Loss: 0.0283
+Epoch [75/100], Loss: 0.0276
+-- Evaluation after Epoch [75/100], Test Loss: 0.0779
+Epoch [76/100], Loss: 0.0296
+Epoch [77/100], Loss: 0.0283
+Epoch [78/100], Loss: 0.0268
+Epoch [79/100], Loss: 0.0272
+Epoch [80/100], Loss: 0.0271
+New best training loss: 0.0271. Saving model based on training loss.
+-- Evaluation after Epoch [80/100], Test Loss: 0.0770
+Epoch [81/100], Loss: 0.0264
+Epoch [82/100], Loss: 0.0274
+Epoch [83/100], Loss: 0.0266
+Epoch [84/100], Loss: 0.0262
+Epoch [85/100], Loss: 0.0267
+New best training loss: 0.0267. Saving model based on training loss.
+-- Evaluation after Epoch [85/100], Test Loss: 0.0759
+Epoch [86/100], Loss: 0.0290
+Epoch [87/100], Loss: 0.0272
+Epoch [88/100], Loss: 0.0248
+Epoch [89/100], Loss: 0.0238
+Epoch [90/100], Loss: 0.0254
+New best training loss: 0.0254. Saving model based on training loss.
+-- Evaluation after Epoch [90/100], Test Loss: 0.0745
+Epoch [91/100], Loss: 0.0259
+Epoch [92/100], Loss: 0.0256
+Epoch [93/100], Loss: 0.0264
+Epoch [94/100], Loss: 0.0244
+Epoch [95/100], Loss: 0.0255
+-- Evaluation after Epoch [95/100], Test Loss: 0.0739
+Epoch [96/100], Loss: 0.0254
+Epoch [97/100], Loss: 0.0231
+Epoch [98/100], Loss: 0.0240
+Epoch [99/100], Loss: 0.0286
+Epoch [100/100], Loss: 0.0268
+-- Evaluation after Epoch [100/100], Test Loss: 0.0767
+Loading the best model from checkpoint with train loss: 0.0254
+Validation Loss (RMSE): 0.0746
+Avg Test Loss after val reverse scaling (RMSE): 63.0412
+Validation results saved to: ./Results\Informer_Study_20250128_114726\Val\validation_results.txt
+Avg Test Loss before reverse scaling(RMSE): 0.0706
+Avg Test Loss after reverse scaling (RMSE): 58.4261
+Test results saved to: ./Results\Informer_Study_20250128_114726\Test\test_results.txt
+Exception in comm_msg for 594e7e3ddd5311efb49d089798b51090
+Traceback (most recent call last):
+  File "C:\Users\BHARGAV BADE\miniconda3\envs\pyda3.9\lib\site-packages\spyder_kernels\comms\commbase.py", line 347, in _handle_remote_call
+    self._set_call_return_value(msg_dict, return_value)
+  File "C:\Users\BHARGAV BADE\miniconda3\envs\pyda3.9\lib\site-packages\spyder_kernels\comms\commbase.py", line 384, in _set_call_return_value
+    self._send_message('remote_call_reply', content=content, data=data,
+  File "C:\Users\BHARGAV BADE\miniconda3\envs\pyda3.9\lib\site-packages\spyder_kernels\comms\frontendcomm.py", line 113, in _send_message
+    return super(FrontendComm, self)._send_message(*args, **kwargs)
+  File "C:\Users\BHARGAV BADE\miniconda3\envs\pyda3.9\lib\site-packages\spyder_kernels\comms\commbase.py", line 238, in _send_message
+    raise CommError("The comm is not connected.")
+spyder_kernels.comms.commbase.CommError: The comm is not connected.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\BHARGAV BADE\miniconda3\envs\pyda3.9\lib\site-packages\comm\base_comm.py", line 296, in comm_msg
+    comm.handle_msg(msg)
+  File "C:\Users\BHARGAV BADE\miniconda3\envs\pyda3.9\lib\site-packages\spyder_kernels\comms\frontendcomm.py", line 260, in handle_msg
+    comm._msg_callback(msg)
+  File "C:\Users\BHARGAV BADE\miniconda3\envs\pyda3.9\lib\site-packages\spyder_kernels\comms\commbase.py", line 333, in _comm_message
+    self._message_handlers[spyder_msg_type](
+  File "C:\Users\BHARGAV BADE\miniconda3\envs\pyda3.9\lib\site-packages\spyder_kernels\comms\commbase.py", line 351, in _handle_remote_call
+    self._set_call_return_value(msg_dict, exc_infos, is_error=True)
+  File "C:\Users\BHARGAV BADE\miniconda3\envs\pyda3.9\lib\site-packages\spyder_kernels\comms\commbase.py", line 384, in _set_call_return_value
+    self._send_message('remote_call_reply', content=content, data=data,
+  File "C:\Users\BHARGAV BADE\miniconda3\envs\pyda3.9\lib\site-packages\spyder_kernels\comms\frontendcomm.py", line 113, in _send_message
+    return super(FrontendComm, self)._send_message(*args, **kwargs)
+  File "C:\Users\BHARGAV BADE\miniconda3\envs\pyda3.9\lib\site-packages\spyder_kernels\comms\commbase.py", line 238, in _send_message
+    raise CommError("The comm is not connected.")
+spyder_kernels.comms.commbase.CommError: The comm is not connected.

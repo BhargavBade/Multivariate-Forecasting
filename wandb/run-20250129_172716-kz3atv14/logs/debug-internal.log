@@ -1,0 +1,8 @@
+{"time":"2025-01-29T17:27:17.0063521+01:00","level":"INFO","msg":"using version","core version":"0.18.7"}
+{"time":"2025-01-29T17:27:17.0063521+01:00","level":"INFO","msg":"created symlink","path":"C:\\Users\\BHARGAV BADE\\Multivar LSTM\\wandb\\run-20250129_172716-kz3atv14\\logs\\debug-core.log"}
+{"time":"2025-01-29T17:27:17.128081+01:00","level":"INFO","msg":"created new stream","id":"kz3atv14"}
+{"time":"2025-01-29T17:27:17.128081+01:00","level":"INFO","msg":"stream: started","id":"kz3atv14"}
+{"time":"2025-01-29T17:27:17.128081+01:00","level":"INFO","msg":"writer: Do: started","stream_id":"kz3atv14"}
+{"time":"2025-01-29T17:27:17.128081+01:00","level":"INFO","msg":"sender: started","stream_id":"kz3atv14"}
+{"time":"2025-01-29T17:27:17.128081+01:00","level":"INFO","msg":"handler: started","stream_id":"kz3atv14"}
+{"time":"2025-01-29T17:27:17.6345753+01:00","level":"INFO","msg":"Starting system monitor"}

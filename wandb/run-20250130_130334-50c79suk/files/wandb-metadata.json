@@ -1,0 +1,43 @@
+{
+  "os": "Windows-10-10.0.22631-SP0",
+  "python": "3.9.19",
+  "startedAt": "2025-01-30T12:03:34.459986Z",
+  "program": "c:\\users\\bhargav bade\\multivar lstm\\train_test_informer.py",
+  "codePath": "train_test_informer.py",
+  "git": {
+    "remote": "https://github.com/BhargavBade/Multivariate-LSTM.git",
+    "commit": "c08dea37d41a1cf3afc1f2ec72db7b95be7fc366"
+  },
+  "email": "bhargavbade@gmail.com",
+  "root": "C:\\Users\\BHARGAV BADE\\Multivar LSTM",
+  "host": "LAPTOP-MJV5DOFC",
+  "username": "BHARGAV BADE",
+  "executable": "C:\\Users\\BHARGAV BADE\\miniconda3\\envs\\pyda3.9\\python.exe",
+  "codePathLocal": "train_test_informer.py",
+  "cpu_count": 4,
+  "cpu_count_logical": 8,
+  "gpu": "NVIDIA GeForce GTX 1650",
+  "gpu_count": 1,
+  "disk": {
+    "/": {
+      "total": "406054760448",
+      "used": "272869052416"
+    }
+  },
+  "memory": {
+    "total": "8419069952"
+  },
+  "cpu": {
+    "count": 4,
+    "countLogical": 8
+  },
+  "gpu_nvidia": [
+    {
+      "name": "NVIDIA GeForce GTX 1650",
+      "memoryTotal": "4294967296",
+      "cudaCores": 896,
+      "architecture": "Turing"
+    }
+  ],
+  "cudaVersion": "11.7"
+}

@@ -1,0 +1,13 @@
+{"time":"2025-01-24T22:54:39.3241536+01:00","level":"INFO","msg":"using version","core version":"0.18.7"}
+{"time":"2025-01-24T22:54:39.3241536+01:00","level":"INFO","msg":"created symlink","path":"C:\\Users\\BHARGAV BADE\\Multivar LSTM\\wandb\\run-20250124_225439-6vwnxf8g\\logs\\debug-core.log"}
+{"time":"2025-01-24T22:54:39.6733087+01:00","level":"INFO","msg":"created new stream","id":"6vwnxf8g"}
+{"time":"2025-01-24T22:54:39.6733087+01:00","level":"INFO","msg":"stream: started","id":"6vwnxf8g"}
+{"time":"2025-01-24T22:54:39.6733087+01:00","level":"INFO","msg":"writer: Do: started","stream_id":"6vwnxf8g"}
+{"time":"2025-01-24T22:54:39.6733087+01:00","level":"INFO","msg":"sender: started","stream_id":"6vwnxf8g"}
+{"time":"2025-01-24T22:54:39.6733087+01:00","level":"INFO","msg":"handler: started","stream_id":"6vwnxf8g"}
+{"time":"2025-01-24T22:54:40.1489215+01:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-01-25T00:12:49.6115669+01:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/graphql\": read tcp 192.168.1.175:51755->35.186.228.49:443: wsarecv: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond."}
+{"time":"2025-01-25T00:12:52.7433614+01:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/graphql\": dial tcp: lookup api.wandb.ai: no such host"}
+{"time":"2025-01-25T00:12:52.7433614+01:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/files/bhargav-bade/Multivar_TS_Informer_Forecasting/6vwnxf8g/file_stream\": dial tcp: lookup api.wandb.ai: no such host"}
+{"time":"2025-01-25T00:13:06.8506003+01:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/files/bhargav-bade/Multivar_TS_Informer_Forecasting/6vwnxf8g/file_stream\": dial tcp: lookup api.wandb.ai: no such host"}
+{"time":"2025-01-25T00:13:06.8512885+01:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/graphql\": dial tcp: lookup api.wandb.ai: no such host"}

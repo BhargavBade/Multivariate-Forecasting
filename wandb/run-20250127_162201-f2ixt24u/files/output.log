@@ -1,0 +1,21 @@
+Epoch [1/12], Loss: 0.2399
+Epoch [2/12], Loss: 0.2181
+Epoch [3/12], Loss: 0.1751
+Epoch [4/12], Loss: 0.1182
+Epoch [5/12], Loss: 0.1178
+-- Evaluation after Epoch [5/12], Test Loss: 0.0614
+New best test loss: 0.0614. Saving model.
+Epoch [6/12], Loss: 0.1096
+Epoch [7/12], Loss: 0.1400
+Epoch [8/12], Loss: 0.1412
+Epoch [9/12], Loss: 0.1022
+Epoch [10/12], Loss: 0.0986
+-- Evaluation after Epoch [10/12], Test Loss: 0.1751
+Epoch [11/12], Loss: 0.0963
+Epoch [12/12], Loss: 0.1072
+Loading the best model from checkpoint with test loss: 0.0614
+Validation Loss (RMSE): 0.0609
+Validation results saved to: ./Results\Informer_Study_20250127_162137\Val\validation_results.txt
+Avg Test Loss before reverse scaling(RMSE): 0.0604
+Avg Test Loss after reverse scaling (RMSE): 58.5382
+Test results saved to: ./Results\Informer_Study_20250127_162137\Test\test_results.txt

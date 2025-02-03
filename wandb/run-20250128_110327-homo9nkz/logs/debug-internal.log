@@ -1,0 +1,13 @@
+{"time":"2025-01-28T11:03:27.8613563+01:00","level":"INFO","msg":"using version","core version":"0.18.7"}
+{"time":"2025-01-28T11:03:27.8613563+01:00","level":"INFO","msg":"created symlink","path":"C:\\Users\\BHARGAV BADE\\Multivar LSTM\\wandb\\run-20250128_110327-homo9nkz\\logs\\debug-core.log"}
+{"time":"2025-01-28T11:03:28.5203126+01:00","level":"INFO","msg":"created new stream","id":"homo9nkz"}
+{"time":"2025-01-28T11:03:28.5208459+01:00","level":"INFO","msg":"stream: started","id":"homo9nkz"}
+{"time":"2025-01-28T11:03:28.5209322+01:00","level":"INFO","msg":"writer: Do: started","stream_id":"homo9nkz"}
+{"time":"2025-01-28T11:03:28.5209322+01:00","level":"INFO","msg":"sender: started","stream_id":"homo9nkz"}
+{"time":"2025-01-28T11:03:28.5209322+01:00","level":"INFO","msg":"handler: started","stream_id":"homo9nkz"}
+{"time":"2025-01-28T11:03:28.8646593+01:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-01-28T13:52:05.2974708+01:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/files/bhargav-bade/Multivar_TS_Informer_Forecasting/homo9nkz/file_stream\": context deadline exceeded"}
+{"time":"2025-01-28T13:52:06.8339744+01:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/graphql\": dial tcp: lookup api.wandb.ai: no such host"}
+{"time":"2025-01-28T13:52:07.7604514+01:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/files/bhargav-bade/Multivar_TS_Informer_Forecasting/homo9nkz/file_stream\": dial tcp: lookup api.wandb.ai: no such host"}
+{"time":"2025-01-28T13:52:09.1159702+01:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/graphql\": dial tcp: lookup api.wandb.ai: no such host"}
+{"time":"2025-01-28T17:26:49.7760114+01:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/graphql\": net/http: request canceled (Client.Timeout exceeded while awaiting headers)"}

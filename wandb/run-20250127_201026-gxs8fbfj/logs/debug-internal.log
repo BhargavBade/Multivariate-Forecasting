@@ -1,0 +1,9 @@
+{"time":"2025-01-27T20:10:26.0407583+01:00","level":"INFO","msg":"using version","core version":"0.18.7"}
+{"time":"2025-01-27T20:10:26.0407583+01:00","level":"INFO","msg":"created symlink","path":"C:\\Users\\BHARGAV BADE\\Multivar LSTM\\wandb\\run-20250127_201026-gxs8fbfj\\logs\\debug-core.log"}
+{"time":"2025-01-27T20:10:26.4163654+01:00","level":"INFO","msg":"created new stream","id":"gxs8fbfj"}
+{"time":"2025-01-27T20:10:26.4163654+01:00","level":"INFO","msg":"stream: started","id":"gxs8fbfj"}
+{"time":"2025-01-27T20:10:26.4163654+01:00","level":"INFO","msg":"sender: started","stream_id":"gxs8fbfj"}
+{"time":"2025-01-27T20:10:26.4163654+01:00","level":"INFO","msg":"writer: Do: started","stream_id":"gxs8fbfj"}
+{"time":"2025-01-27T20:10:26.4163654+01:00","level":"INFO","msg":"handler: started","stream_id":"gxs8fbfj"}
+{"time":"2025-01-27T20:10:26.7793022+01:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-01-27T20:28:14.2955382+01:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/files/bhargav-bade/Multivar_TS_Informer_Forecasting/gxs8fbfj/file_stream\": dial tcp: lookup api.wandb.ai: no such host"}

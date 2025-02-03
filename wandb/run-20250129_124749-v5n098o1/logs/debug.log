@@ -1,0 +1,6 @@
+2025-01-29 12:47:49,323 INFO    MainThread:17188 [wandb_setup.py:_flush():79] Current SDK version is 0.18.7
+2025-01-29 12:47:49,323 INFO    MainThread:17188 [wandb_setup.py:_flush():79] Configure stats pid to 17188
+2025-01-29 12:47:49,323 INFO    MainThread:17188 [wandb_setup.py:_flush():79] Loading settings from C:\Users\BHARGAV BADE\.config\wandb\settings
+2025-01-29 12:47:49,323 INFO    MainThread:17188 [wandb_setup.py:_flush():79] Loading settings from C:\Users\BHARGAV BADE\Multivar LSTM\wandb\settings
+2025-01-29 12:47:49,323 INFO    MainThread:17188 [wandb_setup.py:_flush():79] Loading settings from environment variables: {}
+2025-01-29 12:47:49,323 INFO    MainThread:17188 [wandb_setup.py:_flush():79] Applying setup settings: {'mode': None, '_disable_service': None}

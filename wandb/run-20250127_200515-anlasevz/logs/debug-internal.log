@@ -1,0 +1,8 @@
+{"time":"2025-01-27T20:05:15.5640708+01:00","level":"INFO","msg":"using version","core version":"0.18.7"}
+{"time":"2025-01-27T20:05:15.5640708+01:00","level":"INFO","msg":"created symlink","path":"C:\\Users\\BHARGAV BADE\\Multivar LSTM\\wandb\\run-20250127_200515-anlasevz\\logs\\debug-core.log"}
+{"time":"2025-01-27T20:05:15.9696843+01:00","level":"INFO","msg":"created new stream","id":"anlasevz"}
+{"time":"2025-01-27T20:05:15.9696843+01:00","level":"INFO","msg":"stream: started","id":"anlasevz"}
+{"time":"2025-01-27T20:05:15.9696843+01:00","level":"INFO","msg":"sender: started","stream_id":"anlasevz"}
+{"time":"2025-01-27T20:05:15.9696843+01:00","level":"INFO","msg":"handler: started","stream_id":"anlasevz"}
+{"time":"2025-01-27T20:05:15.9696843+01:00","level":"INFO","msg":"writer: Do: started","stream_id":"anlasevz"}
+{"time":"2025-01-27T20:05:16.3764039+01:00","level":"INFO","msg":"Starting system monitor"}

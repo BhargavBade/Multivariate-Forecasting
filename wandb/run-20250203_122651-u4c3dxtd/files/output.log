@@ -1,0 +1,32 @@
+C:\Users\BHARGAV BADE\miniconda3\envs\pyda3.9\lib\site-packages\torch\nn\modules\loss.py:538: UserWarning: Using a target size (torch.Size([32, 24])) that is different to the input size (torch.Size([32, 24, 1])). This will likely lead to incorrect results due to broadcasting. Please ensure they have the same size.
+  return F.mse_loss(input, target, reduction=self.reduction)
+[4;33mReloaded modules[24m: Network.models, Network.utils, Network.utils.masking, Network.models.encoder, Network.models.decoder, Network.models.attn, Network.models.embed, Network.models.model, study_folder, params_informer, prepare_data_inf[0m
+196
+./Results\Informer_Study_20250203_123738
+./Results\Informer_Study_20250203_123738\Train
+Config file saved to: ./Results\Informer_Study_20250203_123738\params_informer.py
+./01_PM2.5 Chinese Weather data\BeijingPM20100101_20151231.csv
+Range of PM values: 979.0 (Min: 1.0, Max: 980.0)
+Avg of PM values: 101.82727551960684
+PM index during scaling is: 8
+Train data tensor shape: torch.Size([276, 196, 11])
+Train labels tensor shape: torch.Size([276, 24])
+Val data tensor shape: torch.Size([113, 196, 11])
+Val labels tensor shape: torch.Size([113, 24])
+Test data tensor shape: torch.Size([113, 196, 11])
+Test labels tensor shape: torch.Size([113, 24])
+Epoch [1/5], Loss: 0.6748
+Epoch [2/5], Loss: 0.2275
+Epoch [3/5], Loss: 0.2270
+Epoch [4/5], Loss: 0.2053
+Epoch [5/5], Loss: 0.2211
+New best training loss: 0.2211. Saving model based on training loss.
+-- Evaluation after Epoch [5/5], Test Loss: 0.1674
+New best test loss: 0.1674. Saving model.
+Loading the best model from checkpoint with train loss: 0.2211
+Validation Loss (RMSE): 0.1688
+Avg Test Loss after val reverse scaling (RMSE): 133.7081
+Validation results saved to: ./Results\Informer_Study_20250203_123738\Val\validation_results.txt
+Avg Test Loss before reverse scaling(RMSE): 0.1675
+Avg Test Loss after reverse scaling (RMSE): 132.8426
+Test results saved to: ./Results\Informer_Study_20250203_123738\Test\test_results.txt

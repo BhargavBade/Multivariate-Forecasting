@@ -1,0 +1,9 @@
+{"time":"2025-01-27T16:22:01.2961389+01:00","level":"INFO","msg":"using version","core version":"0.18.7"}
+{"time":"2025-01-27T16:22:01.2961389+01:00","level":"INFO","msg":"created symlink","path":"C:\\Users\\BHARGAV BADE\\Multivar LSTM\\wandb\\run-20250127_162201-f2ixt24u\\logs\\debug-core.log"}
+{"time":"2025-01-27T16:22:01.4220776+01:00","level":"INFO","msg":"created new stream","id":"f2ixt24u"}
+{"time":"2025-01-27T16:22:01.4220776+01:00","level":"INFO","msg":"stream: started","id":"f2ixt24u"}
+{"time":"2025-01-27T16:22:01.4220776+01:00","level":"INFO","msg":"writer: Do: started","stream_id":"f2ixt24u"}
+{"time":"2025-01-27T16:22:01.4220776+01:00","level":"INFO","msg":"handler: started","stream_id":"f2ixt24u"}
+{"time":"2025-01-27T16:22:01.4220776+01:00","level":"INFO","msg":"sender: started","stream_id":"f2ixt24u"}
+{"time":"2025-01-27T16:22:01.9396614+01:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-01-27T17:32:13.3658496+01:00","level":"INFO","msg":"api: retrying HTTP error","status":500,"url":"https://api.wandb.ai/files/bhargav-bade/Multivar_TS_Informer_Forecasting/f2ixt24u/file_stream"}

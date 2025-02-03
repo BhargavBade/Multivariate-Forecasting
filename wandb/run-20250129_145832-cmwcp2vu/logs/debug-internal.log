@@ -1,0 +1,8 @@
+{"time":"2025-01-29T14:58:32.3008288+01:00","level":"INFO","msg":"using version","core version":"0.18.7"}
+{"time":"2025-01-29T14:58:32.301585+01:00","level":"INFO","msg":"created symlink","path":"C:\\Users\\BHARGAV BADE\\Multivar LSTM\\wandb\\run-20250129_145832-cmwcp2vu\\logs\\debug-core.log"}
+{"time":"2025-01-29T14:58:33.3904543+01:00","level":"INFO","msg":"created new stream","id":"cmwcp2vu"}
+{"time":"2025-01-29T14:58:33.3910143+01:00","level":"INFO","msg":"stream: started","id":"cmwcp2vu"}
+{"time":"2025-01-29T14:58:33.3910143+01:00","level":"INFO","msg":"sender: started","stream_id":"cmwcp2vu"}
+{"time":"2025-01-29T14:58:33.3910143+01:00","level":"INFO","msg":"writer: Do: started","stream_id":"cmwcp2vu"}
+{"time":"2025-01-29T14:58:33.3910143+01:00","level":"INFO","msg":"handler: started","stream_id":"cmwcp2vu"}
+{"time":"2025-01-29T14:58:34.178624+01:00","level":"INFO","msg":"Starting system monitor"}

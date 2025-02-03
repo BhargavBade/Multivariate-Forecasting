@@ -1,0 +1,3 @@
+Validation Loss (RMSE): 0.0623
+Validation Predictions Shape: (1120, 8)
+Validation Actual Labels Shape: (1120, 8)

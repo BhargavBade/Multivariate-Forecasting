@@ -1,0 +1,20 @@
+{"time":"2025-01-27T12:46:20.4283597+01:00","level":"INFO","msg":"using version","core version":"0.18.7"}
+{"time":"2025-01-27T12:46:20.4283597+01:00","level":"INFO","msg":"created symlink","path":"C:\\Users\\BHARGAV BADE\\Multivar LSTM\\wandb\\run-20250127_124620-rzf1tgjr\\logs\\debug-core.log"}
+{"time":"2025-01-27T12:46:20.9867959+01:00","level":"INFO","msg":"created new stream","id":"rzf1tgjr"}
+{"time":"2025-01-27T12:46:20.9867959+01:00","level":"INFO","msg":"stream: started","id":"rzf1tgjr"}
+{"time":"2025-01-27T12:46:20.9867959+01:00","level":"INFO","msg":"writer: Do: started","stream_id":"rzf1tgjr"}
+{"time":"2025-01-27T12:46:20.9867959+01:00","level":"INFO","msg":"sender: started","stream_id":"rzf1tgjr"}
+{"time":"2025-01-27T12:46:20.9867959+01:00","level":"INFO","msg":"handler: started","stream_id":"rzf1tgjr"}
+{"time":"2025-01-27T12:46:21.6816887+01:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-01-27T14:01:51.0276072+01:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/files/bhargav-bade/Multivar_TS_Informer_Forecasting/rzf1tgjr/file_stream\": dial tcp: lookup api.wandb.ai: no such host"}
+{"time":"2025-01-27T14:01:51.66073+01:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/graphql\": dial tcp: lookup api.wandb.ai: no such host"}
+{"time":"2025-01-27T14:01:53.1852577+01:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/files/bhargav-bade/Multivar_TS_Informer_Forecasting/rzf1tgjr/file_stream\": dial tcp: lookup api.wandb.ai: no such host"}
+{"time":"2025-01-27T14:01:53.8857669+01:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/graphql\": dial tcp: lookup api.wandb.ai: no such host"}
+{"time":"2025-01-27T14:01:57.8711499+01:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/files/bhargav-bade/Multivar_TS_Informer_Forecasting/rzf1tgjr/file_stream\": dial tcp: lookup api.wandb.ai: no such host"}
+{"time":"2025-01-27T14:01:58.5239702+01:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/graphql\": dial tcp: lookup api.wandb.ai: no such host"}
+{"time":"2025-01-27T14:02:05.9890458+01:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/files/bhargav-bade/Multivar_TS_Informer_Forecasting/rzf1tgjr/file_stream\": dial tcp: lookup api.wandb.ai: no such host"}
+{"time":"2025-01-27T14:02:07.3436537+01:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/graphql\": dial tcp: lookup api.wandb.ai: no such host"}
+{"time":"2025-01-27T14:02:22.1840926+01:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/files/bhargav-bade/Multivar_TS_Informer_Forecasting/rzf1tgjr/file_stream\": dial tcp: lookup api.wandb.ai: no such host"}
+{"time":"2025-01-27T14:02:24.7670139+01:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/graphql\": dial tcp: lookup api.wandb.ai: no such host"}
+{"time":"2025-01-27T14:02:54.3938043+01:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/files/bhargav-bade/Multivar_TS_Informer_Forecasting/rzf1tgjr/file_stream\": dial tcp: lookup api.wandb.ai: no such host"}
+{"time":"2025-01-27T14:47:08.3752288+01:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/graphql\": context deadline exceeded"}

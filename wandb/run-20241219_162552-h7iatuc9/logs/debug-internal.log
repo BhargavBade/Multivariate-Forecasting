@@ -1,0 +1,8 @@
+{"time":"2024-12-19T16:25:52.8123437+01:00","level":"INFO","msg":"using version","core version":"0.18.7"}
+{"time":"2024-12-19T16:25:52.8124998+01:00","level":"INFO","msg":"created symlink","path":"C:\\Users\\BHARGAV BADE\\Multivar LSTM\\wandb\\run-20241219_162552-h7iatuc9\\logs\\debug-core.log"}
+{"time":"2024-12-19T16:25:52.9381759+01:00","level":"INFO","msg":"created new stream","id":"h7iatuc9"}
+{"time":"2024-12-19T16:25:52.9381759+01:00","level":"INFO","msg":"stream: started","id":"h7iatuc9"}
+{"time":"2024-12-19T16:25:52.9381759+01:00","level":"INFO","msg":"handler: started","stream_id":"h7iatuc9"}
+{"time":"2024-12-19T16:25:52.9381759+01:00","level":"INFO","msg":"sender: started","stream_id":"h7iatuc9"}
+{"time":"2024-12-19T16:25:52.9381759+01:00","level":"INFO","msg":"writer: Do: started","stream_id":"h7iatuc9"}
+{"time":"2024-12-19T16:25:53.3031557+01:00","level":"INFO","msg":"Starting system monitor"}

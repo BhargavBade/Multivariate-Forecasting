@@ -1,0 +1,24 @@
+
+#DATA CONFIGS
+# n_steps_in = 96
+# n_steps_out = 1
+batch_size = 32
+
+#LSTM NETWORK
+input_size = 11  # number of features
+hidden_size = 64 # number of hidden units in LSTM
+output_size = 1  # output size
+num_layers = 3   # number of LSTM layers
+lr = 0.0001
+num_epochs = 100
+
+seq_len = 240
+pred_len = 1
+label_len = 72
+
+enc_inp = 11
+dec_in = 1
+c_out = 1
+
+wandb_name = "Informer_Model"
+wandb_project = "Multivar_TS_Informer_Forecasting"

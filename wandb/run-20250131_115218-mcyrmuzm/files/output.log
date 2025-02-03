@@ -1,0 +1,17 @@
+C:\Users\BHARGAV BADE\miniconda3\envs\pyda3.9\lib\site-packages\torch\nn\modules\loss.py:538: UserWarning: Using a target size (torch.Size([32, 1])) that is different to the input size (torch.Size([32, 1, 1])). This will likely lead to incorrect results due to broadcasting. Please ensure they have the same size.
+  return F.mse_loss(input, target, reduction=self.reduction)
+Epoch [1/5], Loss: 0.2093
+Epoch [2/5], Loss: 0.1384
+Epoch [3/5], Loss: 0.1097
+Epoch [4/5], Loss: 0.0980
+Epoch [5/5], Loss: 0.0914
+New best training loss: 0.0914. Saving model based on training loss.
+-- Evaluation after Epoch [5/5], Test Loss: 0.1150
+New best test loss: 0.1150. Saving model.
+Loading the best model from checkpoint with train loss: 0.0914
+Validation Loss (RMSE): 0.1149
+Avg Test Loss after val reverse scaling (RMSE): 103.9297
+Validation results saved to: ./Results\Informer_Study_20250131_115203\Val\validation_results.txt
+Avg Test Loss before reverse scaling(RMSE): 0.1150
+Avg Test Loss after reverse scaling (RMSE): 103.8905
+Test results saved to: ./Results\Informer_Study_20250131_115203\Test\test_results.txt

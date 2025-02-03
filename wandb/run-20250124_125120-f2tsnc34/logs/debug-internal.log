@@ -1,0 +1,9 @@
+{"time":"2025-01-24T12:51:20.4004865+01:00","level":"INFO","msg":"using version","core version":"0.18.7"}
+{"time":"2025-01-24T12:51:20.4004865+01:00","level":"INFO","msg":"created symlink","path":"C:\\Users\\BHARGAV BADE\\Multivar LSTM\\wandb\\run-20250124_125120-f2tsnc34\\logs\\debug-core.log"}
+{"time":"2025-01-24T12:51:21.1364864+01:00","level":"INFO","msg":"created new stream","id":"f2tsnc34"}
+{"time":"2025-01-24T12:51:21.1364864+01:00","level":"INFO","msg":"stream: started","id":"f2tsnc34"}
+{"time":"2025-01-24T12:51:21.1364864+01:00","level":"INFO","msg":"writer: Do: started","stream_id":"f2tsnc34"}
+{"time":"2025-01-24T12:51:21.1364864+01:00","level":"INFO","msg":"sender: started","stream_id":"f2tsnc34"}
+{"time":"2025-01-24T12:51:21.1364864+01:00","level":"INFO","msg":"handler: started","stream_id":"f2tsnc34"}
+{"time":"2025-01-24T12:51:21.7055297+01:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-01-24T13:49:33.9631307+01:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/graphql\": read tcp 150.146.60.35:61438->35.186.228.49:443: wsarecv: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond."}

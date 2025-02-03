@@ -30,7 +30,7 @@ print(params.lr)
 # In[206]:
 
 
-print(params.window_size)
+print(params.n_steps_in)
 
 
 # In[207]:

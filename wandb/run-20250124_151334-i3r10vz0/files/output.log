@@ -1,0 +1,11 @@
+Epoch [1/6], Loss: 0.7400
+Epoch [2/6], Loss: 0.0818
+Epoch [3/6], Loss: 0.1033
+Epoch [4/6], Loss: 0.1060
+Epoch [5/6], Loss: 0.0953
+-- Evaluation after Epoch [5/6], Test Loss: 0.1781
+New best test loss: 0.1781. Saving model.
+Epoch [6/6], Loss: 0.0507
+Loading the best model from checkpoint with test loss: 0.1781
+Validation Loss (RMSE): 1.1574
+Validation results saved to: ./Results\Informer_Study_20250124_151253\Val\validation_results.txt
