@@ -1,8 +1,0 @@
-{"time":"2025-01-31T11:52:18.4181878+01:00","level":"INFO","msg":"using version","core version":"0.18.7"}
-{"time":"2025-01-31T11:52:18.4181878+01:00","level":"INFO","msg":"created symlink","path":"C:\\Users\\BHARGAV BADE\\Multivar LSTM\\wandb\\run-20250131_115218-mcyrmuzm\\logs\\debug-core.log"}
-{"time":"2025-01-31T11:52:18.7511546+01:00","level":"INFO","msg":"created new stream","id":"mcyrmuzm"}
-{"time":"2025-01-31T11:52:18.7517683+01:00","level":"INFO","msg":"stream: started","id":"mcyrmuzm"}
-{"time":"2025-01-31T11:52:18.7517683+01:00","level":"INFO","msg":"sender: started","stream_id":"mcyrmuzm"}
-{"time":"2025-01-31T11:52:18.7517683+01:00","level":"INFO","msg":"writer: Do: started","stream_id":"mcyrmuzm"}
-{"time":"2025-01-31T11:52:18.7517683+01:00","level":"INFO","msg":"handler: started","stream_id":"mcyrmuzm"}
-{"time":"2025-01-31T11:52:19.1078355+01:00","level":"INFO","msg":"Starting system monitor"}

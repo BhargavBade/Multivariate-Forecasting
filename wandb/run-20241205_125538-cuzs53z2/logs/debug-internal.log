@@ -1,8 +1,0 @@
-{"time":"2024-12-05T12:55:38.6441411+01:00","level":"INFO","msg":"using version","core version":"0.18.7"}
-{"time":"2024-12-05T12:55:38.6446543+01:00","level":"INFO","msg":"created symlink","path":"C:\\Users\\BHARGAV BADE\\Multivar LSTM\\wandb\\run-20241205_125538-cuzs53z2\\logs\\debug-core.log"}
-{"time":"2024-12-05T12:55:39.0778456+01:00","level":"INFO","msg":"created new stream","id":"cuzs53z2"}
-{"time":"2024-12-05T12:55:39.0778456+01:00","level":"INFO","msg":"stream: started","id":"cuzs53z2"}
-{"time":"2024-12-05T12:55:39.0778456+01:00","level":"INFO","msg":"writer: Do: started","stream_id":"cuzs53z2"}
-{"time":"2024-12-05T12:55:39.0778456+01:00","level":"INFO","msg":"sender: started","stream_id":"cuzs53z2"}
-{"time":"2024-12-05T12:55:39.0778456+01:00","level":"INFO","msg":"handler: started","stream_id":"cuzs53z2"}
-{"time":"2024-12-05T12:55:39.4771576+01:00","level":"INFO","msg":"Starting system monitor"}

@@ -1,8 +1,0 @@
-{"time":"2025-02-03T12:26:51.6765014+01:00","level":"INFO","msg":"using version","core version":"0.18.7"}
-{"time":"2025-02-03T12:26:51.6765014+01:00","level":"INFO","msg":"created symlink","path":"C:\\Users\\BHARGAV BADE\\Multivar LSTM\\wandb\\run-20250203_122651-u4c3dxtd\\logs\\debug-core.log"}
-{"time":"2025-02-03T12:26:51.7978643+01:00","level":"INFO","msg":"created new stream","id":"u4c3dxtd"}
-{"time":"2025-02-03T12:26:51.798371+01:00","level":"INFO","msg":"stream: started","id":"u4c3dxtd"}
-{"time":"2025-02-03T12:26:51.7984754+01:00","level":"INFO","msg":"sender: started","stream_id":"u4c3dxtd"}
-{"time":"2025-02-03T12:26:51.798371+01:00","level":"INFO","msg":"writer: Do: started","stream_id":"u4c3dxtd"}
-{"time":"2025-02-03T12:26:51.798371+01:00","level":"INFO","msg":"handler: started","stream_id":"u4c3dxtd"}
-{"time":"2025-02-03T12:26:52.1706936+01:00","level":"INFO","msg":"Starting system monitor"}

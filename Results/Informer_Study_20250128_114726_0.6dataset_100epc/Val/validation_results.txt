@@ -1,4 +1,0 @@
-Validation Loss (RMSE): 0.0746
-Validation Loss after reverse scaling(RMSE) : 63.0412
-Validation Predictions Shape: (8704,)
-Validation Actual Labels Shape: (8704,)

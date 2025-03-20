@@ -2,7 +2,7 @@
 #DATA CONFIGS
 batch_size = 32
 seq_len = 336 #Lenght of the window
-pred_len = 24 #No of steps to predict
+pred_len = 168 #No of steps to predict
 label_len = 336 #No of target lookbacks
 
 # Hyper parmas

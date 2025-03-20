@@ -1,8 +1,0 @@
-{"time":"2024-12-03T17:05:36.843683+01:00","level":"INFO","msg":"using version","core version":"0.18.7"}
-{"time":"2024-12-03T17:05:36.8437448+01:00","level":"INFO","msg":"created symlink","path":"C:\\Users\\BHARGAV BADE\\Multivar LSTM\\wandb\\run-20241203_170536-kl2o2idy\\logs\\debug-core.log"}
-{"time":"2024-12-03T17:05:37.1937769+01:00","level":"INFO","msg":"created new stream","id":"kl2o2idy"}
-{"time":"2024-12-03T17:05:37.1937769+01:00","level":"INFO","msg":"stream: started","id":"kl2o2idy"}
-{"time":"2024-12-03T17:05:37.1937769+01:00","level":"INFO","msg":"sender: started","stream_id":"kl2o2idy"}
-{"time":"2024-12-03T17:05:37.1937769+01:00","level":"INFO","msg":"handler: started","stream_id":"kl2o2idy"}
-{"time":"2024-12-03T17:05:37.1937769+01:00","level":"INFO","msg":"writer: Do: started","stream_id":"kl2o2idy"}
-{"time":"2024-12-03T17:05:37.6862281+01:00","level":"INFO","msg":"Starting system monitor"}

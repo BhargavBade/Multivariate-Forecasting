@@ -1,8 +1,0 @@
-{"time":"2024-12-05T21:42:26.3446902+01:00","level":"INFO","msg":"using version","core version":"0.18.7"}
-{"time":"2024-12-05T21:42:26.3446902+01:00","level":"INFO","msg":"created symlink","path":"C:\\Users\\BHARGAV BADE\\Multivar LSTM\\wandb\\run-20241205_214226-zn8j308q\\logs\\debug-core.log"}
-{"time":"2024-12-05T21:42:27.4096954+01:00","level":"INFO","msg":"created new stream","id":"zn8j308q"}
-{"time":"2024-12-05T21:42:27.4096954+01:00","level":"INFO","msg":"stream: started","id":"zn8j308q"}
-{"time":"2024-12-05T21:42:27.4102027+01:00","level":"INFO","msg":"writer: Do: started","stream_id":"zn8j308q"}
-{"time":"2024-12-05T21:42:27.4102827+01:00","level":"INFO","msg":"sender: started","stream_id":"zn8j308q"}
-{"time":"2024-12-05T21:42:27.4102827+01:00","level":"INFO","msg":"handler: started","stream_id":"zn8j308q"}
-{"time":"2024-12-05T21:42:27.9857085+01:00","level":"INFO","msg":"Starting system monitor"}

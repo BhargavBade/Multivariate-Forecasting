@@ -1,2 +1,0 @@
-Best train Loss (MSE) obtained: 0.2211
-Best test Loss (MSE) obtained: 0.1674

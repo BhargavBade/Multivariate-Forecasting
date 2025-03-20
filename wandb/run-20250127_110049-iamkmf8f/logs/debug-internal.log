@@ -1,8 +1,0 @@
-{"time":"2025-01-27T11:00:49.1569952+01:00","level":"INFO","msg":"using version","core version":"0.18.7"}
-{"time":"2025-01-27T11:00:49.1575594+01:00","level":"INFO","msg":"created symlink","path":"C:\\Users\\BHARGAV BADE\\Multivar LSTM\\wandb\\run-20250127_110049-iamkmf8f\\logs\\debug-core.log"}
-{"time":"2025-01-27T11:00:49.5814113+01:00","level":"INFO","msg":"created new stream","id":"iamkmf8f"}
-{"time":"2025-01-27T11:00:49.5814113+01:00","level":"INFO","msg":"stream: started","id":"iamkmf8f"}
-{"time":"2025-01-27T11:00:49.5814113+01:00","level":"INFO","msg":"writer: Do: started","stream_id":"iamkmf8f"}
-{"time":"2025-01-27T11:00:49.5814113+01:00","level":"INFO","msg":"sender: started","stream_id":"iamkmf8f"}
-{"time":"2025-01-27T11:00:49.5819615+01:00","level":"INFO","msg":"handler: started","stream_id":"iamkmf8f"}
-{"time":"2025-01-27T11:00:50.1243841+01:00","level":"INFO","msg":"Starting system monitor"}

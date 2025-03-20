@@ -1,8 +1,0 @@
-{"time":"2024-12-18T16:58:50.0324571+01:00","level":"INFO","msg":"using version","core version":"0.18.7"}
-{"time":"2024-12-18T16:58:50.0324571+01:00","level":"INFO","msg":"created symlink","path":"C:\\Users\\BHARGAV BADE\\Multivar LSTM\\wandb\\run-20241218_165850-un9xgxga\\logs\\debug-core.log"}
-{"time":"2024-12-18T16:58:50.498402+01:00","level":"INFO","msg":"created new stream","id":"un9xgxga"}
-{"time":"2024-12-18T16:58:50.498402+01:00","level":"INFO","msg":"stream: started","id":"un9xgxga"}
-{"time":"2024-12-18T16:58:50.498402+01:00","level":"INFO","msg":"writer: Do: started","stream_id":"un9xgxga"}
-{"time":"2024-12-18T16:58:50.498402+01:00","level":"INFO","msg":"sender: started","stream_id":"un9xgxga"}
-{"time":"2024-12-18T16:58:50.498402+01:00","level":"INFO","msg":"handler: started","stream_id":"un9xgxga"}
-{"time":"2024-12-18T16:58:50.9454871+01:00","level":"INFO","msg":"Starting system monitor"}

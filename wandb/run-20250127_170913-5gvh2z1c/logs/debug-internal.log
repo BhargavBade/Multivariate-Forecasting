@@ -1,9 +1,0 @@
-{"time":"2025-01-27T17:09:13.6138348+01:00","level":"INFO","msg":"using version","core version":"0.18.7"}
-{"time":"2025-01-27T17:09:13.6138348+01:00","level":"INFO","msg":"created symlink","path":"C:\\Users\\BHARGAV BADE\\Multivar LSTM\\wandb\\run-20250127_170913-5gvh2z1c\\logs\\debug-core.log"}
-{"time":"2025-01-27T17:09:13.952187+01:00","level":"INFO","msg":"created new stream","id":"5gvh2z1c"}
-{"time":"2025-01-27T17:09:13.952187+01:00","level":"INFO","msg":"stream: started","id":"5gvh2z1c"}
-{"time":"2025-01-27T17:09:13.952187+01:00","level":"INFO","msg":"sender: started","stream_id":"5gvh2z1c"}
-{"time":"2025-01-27T17:09:13.952187+01:00","level":"INFO","msg":"handler: started","stream_id":"5gvh2z1c"}
-{"time":"2025-01-27T17:09:13.952187+01:00","level":"INFO","msg":"writer: Do: started","stream_id":"5gvh2z1c"}
-{"time":"2025-01-27T17:09:14.416562+01:00","level":"INFO","msg":"Starting system monitor"}
-{"time":"2025-01-27T17:24:15.8377502+01:00","level":"INFO","msg":"api: retrying HTTP error","status":502,"url":"https://api.wandb.ai/files/bhargav-bade/Multivar_TS_Informer_Forecasting/5gvh2z1c/file_stream"}

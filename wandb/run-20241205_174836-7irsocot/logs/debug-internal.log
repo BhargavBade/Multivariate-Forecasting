@@ -1,8 +1,0 @@
-{"time":"2024-12-05T17:48:36.9945408+01:00","level":"INFO","msg":"using version","core version":"0.18.7"}
-{"time":"2024-12-05T17:48:36.9945408+01:00","level":"INFO","msg":"created symlink","path":"C:\\Users\\BHARGAV BADE\\Multivar LSTM\\wandb\\run-20241205_174836-7irsocot\\logs\\debug-core.log"}
-{"time":"2024-12-05T17:48:37.1176852+01:00","level":"INFO","msg":"created new stream","id":"7irsocot"}
-{"time":"2024-12-05T17:48:37.1176852+01:00","level":"INFO","msg":"stream: started","id":"7irsocot"}
-{"time":"2024-12-05T17:48:37.1176852+01:00","level":"INFO","msg":"writer: Do: started","stream_id":"7irsocot"}
-{"time":"2024-12-05T17:48:37.1176852+01:00","level":"INFO","msg":"sender: started","stream_id":"7irsocot"}
-{"time":"2024-12-05T17:48:37.1182123+01:00","level":"INFO","msg":"handler: started","stream_id":"7irsocot"}
-{"time":"2024-12-05T17:48:37.7546878+01:00","level":"INFO","msg":"Starting system monitor"}

@@ -1,7 +1,0 @@
-Test Loss before reverse scaling(RMSE) : 0.0532
-Test Loss after reverse scaling(RMSE) : 41.8280
-Test Predictions Shape: (11264, 1)
-Test Actual Labels Shape: (11264, 1)
-
-columns_to_drop = ['No', 'year', 'month', 'day', 'hour', 'HUMI',
-                           'cbwd_NE', 'cbwd_NW', 'cbwd_SE']

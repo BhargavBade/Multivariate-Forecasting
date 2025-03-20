@@ -108,6 +108,8 @@ class DataPreparer:
         
         return data, date_stamp
     
+    
+    
     def time_features(self, dates, freq='h'):
 
         # Extract time features using vectorized operations instead of apply()

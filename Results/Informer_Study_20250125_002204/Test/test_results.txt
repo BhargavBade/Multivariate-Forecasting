@@ -1,4 +1,0 @@
-Test Loss before reverse scaling(RMSE) : 0.0698
-Test Loss after reverse scaling(RMSE) : 63.6167
-Test Predictions Shape: (432,)
-Test Actual Labels Shape: (432,)
