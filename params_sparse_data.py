@@ -35,7 +35,7 @@ c_out = data_feat - 4 #No of features to predict
 ## Define custom months to send into encoder, decoder and prediction for train, val and test sets
 encoder_months = [10, 11, 12, 1, 2, 3]
 decoder_months = [7, 8, 9]
-pred_months = [4, 5, 6]
+pred_months = [4, 5, 6, 10, 11, 12]
 
 # Testing Params
 num_samples_to_plot = 3 #random selection of samples out of available 24 samples
