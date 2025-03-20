@@ -1,5 +1,0 @@
-Validation Loss before reverse scaling(MAE): 0.1008
-Validation Loss after reverse scaling(MAE) : 21.0742
-Validation Loss after reverse scaling(MSE) : 2779.8699
-Validation Predictions Shape: (24, 90, 6)
-Validation Actual Labels Shape: (24, 90, 6)
