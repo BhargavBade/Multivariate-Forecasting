@@ -1,0 +1,5 @@
+Test Loss before reverse scaling(MAE) : 0.1170
+Test Loss after reverse scaling(MAE) : 26.4723
+Test Loss after reverse scaling(MSE) : 4278.7788
+Test Predictions Shape: (24, 90, 6)
+Test Actual Labels Shape: (24, 90, 6)
