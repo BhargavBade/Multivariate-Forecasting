@@ -4,14 +4,16 @@
 import os
 import torch
 import numpy as np
+import pandas as pd
 import shutil
 import random
 import torch.nn as nn
 import torch.optim as optim
 from datetime import datetime
 from torch.utils.data import Dataset
-from Network.models.model import Informer
+from Network.Inf_network.model import Informer
 from matplotlib.ticker import MaxNLocator
+import matplotlib.dates as mdates
 import wandb
 
 # In[35]:
@@ -26,7 +28,6 @@ importlib.reload(params_informer)
 
 # In[36]:
 
-#print(params.window_size)
 print(params_informer.seq_len)
 
 # In[38]:
@@ -55,9 +56,8 @@ shutil.copy(config_file_path, config_destination_path)
 
 print(f'Config file saved to: {config_destination_path}')
 
-
 #######################################################################################
-# WandB VARIABLES
+# WandB variables
 
 current_time = datetime.now().strftime("%Y%m%d_%H%M%S")
 wandb_name = params_informer.wandb_name
@@ -77,26 +77,19 @@ from prepare_data_inf import DataPreparer
 
 # In[41]:
 
-
 # Create an instance of DataPreparer
 data_preparer = DataPreparer(data_dir='./01_PM2.5 Chinese Weather data')
 
+# Prepare the data (loads, cleans, splits, and creates tensors) and call the tensors
+(train_enc_tensor, train_dec_tensor, train_en_dtstamp_tns, train_dec_dtstamp_tns, train_op_gt,
+ val_enc_tensor, val_dec_tensor, val_en_dtstamp_tns, val_dec_dtstamp_tns, val_op_gt,
+ test_enc_tensor, test_dec_tensor, test_en_dtstamp_tns, test_dec_dtstamp_tns, test_op_gt,
+ test_dec_org_datestamp, test_op_org_datestamp, scaler, column_names) = data_preparer.prepare_data()
 
-# In[42]:
-
-# Prepare the data (loads, cleans, splits, and creates tensors)
-
-data_preparer.prepare_data()
-
-# # Get the tensors
-(train_enc_tensor, train_dec_tensor, train_en_dtstamp_tns, train_dec_dtstamp_tns, train_op_gt, train_past_pm,
- val_enc_tensor, val_dec_tensor, val_en_dtstamp_tns, val_dec_dtstamp_tns, val_op_gt, val_past_pm,
- test_enc_tensor, test_dec_tensor, test_en_dtstamp_tns, test_dec_dtstamp_tns, test_op_gt, test_past_pm,
- scaler, pm_index) = data_preparer.get_tensors()
-
+# Remove the first four column names
+columns_without_datetime = column_names[4:]
 #-----------------------------------------------------------------------------------
-print('PM index during scaling is:',pm_index)
-# Now you can use these tensors for training in your notebook
+
 print("Train data tensor shape:", train_enc_tensor.shape)
 print("Train labels tensor shape:", train_op_gt.shape)
 
@@ -111,7 +104,7 @@ print("Test labels tensor shape:", test_op_gt.shape)
 # Prepare the datasets and dataloaders
 
 class InformerDataset(Dataset):
-    def __init__(self, enc_x, dec_x, datestamp_enc, datestamp_dec, output_y, past_pm_data):
+    def __init__(self, enc_x, dec_x, datestamp_enc, datestamp_dec, output_y):
         """
         Custom dataset for Informer.
 
@@ -133,7 +126,6 @@ class InformerDataset(Dataset):
         self.datestamp_enc = datestamp_enc.to(torch.float32)
         self.datestamp_dec = datestamp_dec.to(torch.float32)
         self.output_y = output_y.to(torch.float32)
-        self.past_pm_data = past_pm_data.to(torch.float32)
 
     def __len__(self):
         """
@@ -166,10 +158,7 @@ class InformerDataset(Dataset):
         # Targets
         output_y = self.output_y[index]
         
-        # Past PM values
-        past_pm = self.past_pm_data[index]
-
-        return x_enc, x_dec, x_mark_enc, x_mark_dec, output_y, past_pm
+        return x_enc, x_dec, x_mark_enc, x_mark_dec, output_y
 
 # Create train dataset and dataloader
 train_dataset = InformerDataset(
@@ -177,8 +166,7 @@ train_dataset = InformerDataset(
     train_dec_tensor,
     train_en_dtstamp_tns,
     train_dec_dtstamp_tns,
-    train_op_gt,
-    train_past_pm)
+    train_op_gt)
 
 # Create Train DataLoader
 train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=params_informer.batch_size,
@@ -191,8 +179,7 @@ val_dataset = InformerDataset(
     val_dec_tensor,
     val_en_dtstamp_tns,
     val_dec_dtstamp_tns,
-    val_op_gt,
-    val_past_pm)
+    val_op_gt)
 
 # Create Train DataLoader
 val_loader = torch.utils.data.DataLoader(val_dataset, batch_size=params_informer.batch_size,
@@ -204,8 +191,7 @@ test_dataset = InformerDataset(
     test_dec_tensor,
     test_en_dtstamp_tns,
     test_dec_dtstamp_tns,
-    test_op_gt,
-    test_past_pm)
+    test_op_gt)
 
 # Create Test DataLoader
 test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=params_informer.batch_size,
@@ -218,19 +204,38 @@ label_len = params_informer.label_len
 pred_len = params_informer.pred_len
 
 #-------------------------------------------------------------------------------------------------
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
+#-------------------------------------------------------------------------------------------
 def _process_one_batch(batch_x, batch_y, batch_x_mark, batch_y_mark, batch_gt_y):
-   
+    """ Forward pass through the model. """
+    
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     batch_x = batch_x.float().to(device)
     batch_y = batch_y.float().to(device)
     batch_x_mark = batch_x_mark.float().to(device)
     batch_y_mark = batch_y_mark.float().to(device)
     batch_gt_y = batch_gt_y.float().to(device)
-    # batch_past_pm = batch_past_pm.float().to(device)
+
+    # Create mask for NaNs (1 for valid values, 0 for NaNs)
+    mask = torch.isnan(batch_gt_y)  # Boolean mask (True where NaN, False where valid)
+    mask = (~mask).float()  # Convert to float (1 for valid, 0 for NaNs)
+    
+    # Replace NaNs with 0s in input tensors (so they don't propagate NaNs in computations)
+    batch_x = torch.nan_to_num(batch_x, nan=0.0)
+    batch_y = torch.nan_to_num(batch_y, nan=0.0)
+    batch_gt_y = torch.nan_to_num(batch_gt_y, nan=0.0)
+
+    # Forward pass
     outputs = model(batch_x, batch_x_mark, batch_y, batch_y_mark)
+
+    # Keep outputs **as is** for visualization
     outputs = outputs.squeeze(-1)
-    return outputs, batch_gt_y   
+
+    # Apply mask **only for loss calculation**, not for saving predictions
+    loss = criterion(outputs * mask, batch_gt_y * mask)  # Masking only in loss
+    
+    return outputs, batch_gt_y, mask, loss
 
 # In[46]:
 
@@ -240,18 +245,19 @@ enc_inp = params_informer.enc_inp  # number of features
 dec_inp = params_informer.dec_in 
 c_out = params_informer.c_out  # output size (1 for regression, could be different for classification)
 
-device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+# device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 model = Informer(enc_inp, dec_inp, c_out, seq_len, label_len, pred_len, device = device).to(device)
 
-# Loss and optimizer
-criterion = nn.MSELoss()
-# criterion = nn.L1Loss() # Mean Absolute Error (MAE)
+# # Loss and optimizer
+# criterion = nn.MSELoss() # Mean Square Error (MSE)
+criterion = nn.L1Loss() # Mean Absolute Error (MAE)
+
 optimizer = optim.Adam(model.parameters(), lr = params_informer.lr)
 
 # In[49]:
 
 #Storing best model based on test loss and train loss    
-best_test_loss = float('inf')  # Initialize best test loss as infinity
+best_val_loss = float('inf')  # Initialize best test loss as infinity
 best_train_loss = float('inf') 
 
 test_checkpoint_path = os.path.join(train_folder, 'best_test_model.pth')  # Path to save the best model    
@@ -281,37 +287,39 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 model.to(device)
 
 num_epochs = params_informer.num_epochs
+patience = params_informer.early_stop_patience  # Number of epochs to wait before stopping if no improvement
+early_stopping_counter = 0  # Track epochs without improvement
 
 # Initialize list to store loss values
 loss_values = []
-test_losses = []   # Store test loss for each 5th epoch
-
-# Initialize a list to store predictions
-train_predictions = []
-train_actual_labels = []
+val_losses = []   # Store test loss for each 5th epoch
 
 # Add a warm-up phase to skip saving early test evaluations
-warmup_epochs = 15  # Define the number of epochs to skip for saving the model
+# Define the number of epochs to skip for saving the model
+warmup_epochs = params_informer.warmup_epochs 
 
 for epoch in range(num_epochs):
     model.train()
     running_loss = 0.0
+    
+    # Initialize a list to store predictions
+    train_predictions = []
+    train_actual_labels = []
+    train_masks = []
 
-    for i, (batch_x,batch_y,batch_x_mark,batch_y_mark, batch_gt_y, batch_past_pm) in enumerate(train_loader):
+    for i, (batch_x,batch_y,batch_x_mark,batch_y_mark, batch_gt_y) in enumerate(train_loader):
     
         batch_x = batch_x.to('cuda' if torch.cuda.is_available() else 'cpu')
         batch_y = batch_y.to('cuda' if torch.cuda.is_available() else 'cpu')
         batch_x_mark = batch_x_mark.to('cuda' if torch.cuda.is_available() else 'cpu')
         batch_y_mark = batch_y_mark.to('cuda' if torch.cuda.is_available() else 'cpu')
         batch_gt_y = batch_gt_y.to('cuda' if torch.cuda.is_available() else 'cpu')
-        batch_past_pm = batch_past_pm.to('cuda' if torch.cuda.is_available() else 'cpu')        
-        
+      
         # Zero the gradients
         optimizer.zero_grad()
         
-        pred, true = _process_one_batch(batch_x, batch_y, batch_x_mark, batch_y_mark, batch_gt_y)
-        loss = torch.sqrt(criterion(pred, true))
- 
+        pred, true, mask, loss = _process_one_batch(batch_x, batch_y, batch_x_mark, batch_y_mark, batch_gt_y)
+    
         # Backward pass and optimization
         loss.backward()
         optimizer.step()
@@ -320,11 +328,10 @@ for epoch in range(num_epochs):
         
         train_predictions.append(pred.detach().cpu().numpy())  # Move predictions to CPU and store
         train_actual_labels.append(true.detach().cpu().numpy())
-
+        train_masks.append(mask.detach().cpu().numpy())
               
     # Compute average loss for the epoch
     avg_loss = running_loss / len(train_loader)
-    # avg_loss = np.average(running_loss)
     loss_values.append(avg_loss)  # Store average loss for this epoch
     wandb.log({"train/epoch_loss": avg_loss, "epoch": epoch + 1})
 
@@ -336,65 +343,93 @@ for epoch in range(num_epochs):
             best_train_loss = avg_loss
             print(f'New best training loss: {best_train_loss:.4f}. Saving model based on training loss.')
             torch.save(model.state_dict(), train_checkpoint_path)  # Save the model based on training loss
-
-    # ---------- Testing Phase (every 5 epochs) ------------------------------------------
+    
+    # VALIDATION LOOP
+    
+    # ---------- Validating parallely while training (every 5 epochs)------------------------------------------
     if (epoch + 1) % 5 == 0:
         model.eval()  # Set the model to evaluation mode
-        running_test_loss = 0.0
+        running_val_loss = 0.0
 
         with torch.no_grad():  # Disable gradient calculations for testing
-            for i, (batch_x,batch_y,batch_x_mark,batch_y_mark, batch_gt_y, batch_past_pm) in enumerate(test_loader):
+            for i, (batch_x,batch_y,batch_x_mark,batch_y_mark, batch_gt_y) in enumerate(val_loader):
             
                 batch_x = batch_x.to('cuda' if torch.cuda.is_available() else 'cpu')
                 batch_y = batch_y.to('cuda' if torch.cuda.is_available() else 'cpu')
                 batch_x_mark = batch_x_mark.to('cuda' if torch.cuda.is_available() else 'cpu')
                 batch_y_mark = batch_y_mark.to('cuda' if torch.cuda.is_available() else 'cpu')
                 batch_gt_y = batch_gt_y.to('cuda' if torch.cuda.is_available() else 'cpu')
-                batch_past_pm = batch_past_pm.to('cuda' if torch.cuda.is_available() else 'cpu')
-               
-                # Forward pass
-                pred, true = _process_one_batch(batch_x, batch_y, batch_x_mark, batch_y_mark, batch_gt_y)
-                loss = torch.sqrt(criterion(pred, true))
 
-                running_test_loss += loss.item()               
+                # Forward pass
+                pred, true, mask, loss = _process_one_batch(batch_x, batch_y, batch_x_mark, batch_y_mark, batch_gt_y)
+                
+                running_val_loss += loss.item()               
                 
         # Compute average test loss for the epoch
-        avg_test_loss = running_test_loss / len(test_loader)
+        avg_val_loss = running_val_loss / len(val_loader)
         # avg_test_loss = np.average(running_test_loss)
-        test_losses.append(avg_test_loss)
-        wandb.log({"test/epoch_loss": avg_test_loss})
+        val_losses.append(avg_val_loss)
+        wandb.log({"test/epoch_loss": avg_val_loss})
         # Print test loss for the current evaluation
-        print(f'-- Evaluation after Epoch [{epoch + 1}/{num_epochs}], Test Loss: {avg_test_loss:.4f}')
+        print(f'-- Evaluation after Epoch [{epoch + 1}/{num_epochs}], Val Loss: {avg_val_loss:.4f}')
         
         # Check if this is the best test loss so far
-        # if avg_test_loss < best_test_loss:
         # Save the model only after warm-up phase
-        if epoch + 1 > warmup_epochs and avg_test_loss < best_test_loss:    
-            best_test_loss = avg_test_loss
-            print(f'New best test loss: {best_test_loss:.4f}. Saving model.')
+        if epoch + 1 >= warmup_epochs and avg_val_loss < best_val_loss:    
+            best_val_loss = avg_val_loss
+            early_stopping_counter = 0  # Reset patience counter
+            print(f'New best val loss: {best_val_loss:.4f}. Saving model.')
             torch.save(model.state_dict(), test_checkpoint_path)  # Save model
-        
+        else:
+           early_stopping_counter += 1
+           print(f'No improvement in val loss for {early_stopping_counter}/{patience} epochs.')           
+                   
+        # Stop training if no improvement for 'patience' epochs
+        if early_stopping_counter > patience:
+            print("Early stopping triggered. Loading best model and stopping training.")
+            model.load_state_dict(torch.load(test_checkpoint_path))  # Restore best model
+            break  # Exit training loop   
+                
         # Write the train and test losses to the text file in append mode
         with open(train_results_file, 'a') as f:  # Use 'a' for append mode
-            f.write(f'Best train Loss (MSE) obtained: {best_train_loss:.4f}\n')
-            f.write(f'Best test Loss (MSE) obtained: {best_test_loss:.4f}\n')
+            f.write(f'Best train Loss (MAE) obtained: {best_train_loss:.4f}\n')
+            f.write(f'Best VAL Loss (MAE) obtained: {best_val_loss:.4f}\n')
         
         model.train()  # Switch back to training mode
+#-------------------------------------------------------------------------------------------------
 
-# Concatenate, squeeze, and flatten predictions and labels into 1D arrays
-train_predictions = np.concatenate(train_predictions, axis=0).squeeze().flatten()
-train_actual_labels = np.concatenate(train_actual_labels, axis=0).squeeze().flatten()
+# Reverse scaling predictions and actual values
+def reverse_scaling(data, scaler, mask):
+    # Move tensors to CPU and convert to NumPy if needed
+    data = data.cpu().numpy() if isinstance(data, torch.Tensor) else np.array(data)
+    mask = mask.cpu().numpy() if isinstance(mask, torch.Tensor) else np.array(mask)
 
+    # Ensure shape consistency
+    if mask.shape != data.shape:
+        mask = np.broadcast_to(mask, data.shape)  # Expand mask if necessary
 
-# Reverse scaling the prediction PM and actual PM values
-# Access min and max values for reverse scaling
-mins = scaler.data_min_
-maxs = scaler.data_max_
+    # Reshape data for inverse transform: (batch_size * seq_len, num_features)
+    original_shape = data.shape  # (batch, seq_len, features)
+    data_reshaped = data.reshape(-1, original_shape[-1])
 
-# Reverse scaling for PM predictions and labels
-train_predictions_original_scale = train_predictions * (maxs[pm_index] - mins[pm_index]) + mins[pm_index]
-train_actual_labels_original_scale = train_actual_labels * (maxs[pm_index] - mins[pm_index]) + mins[pm_index]
-        
+    # Apply inverse scaling
+    data_original_scale = scaler.inverse_transform(data_reshaped)
+
+    # Restore NaNs based on mask
+    data_original_scale = data_original_scale.reshape(original_shape)
+    data_original_scale[mask == 0] = np.nan  # Restore NaNs where they were masked
+
+    return data_original_scale
+
+# Reverse scaling predictions and labels
+# Convert list of batches into a single NumPy array
+train_predictions = np.concatenate(train_predictions, axis=0)  # Shape: (N, 180, 10)
+train_actual_labels = np.concatenate(train_actual_labels, axis=0)  # Shape: (N, 180, 10)
+train_masks = np.concatenate(train_masks, axis=0)  # Ensure mask is also concatenated
+
+# Reverse scale both predictions and actual values
+train_predictions_original_scale = reverse_scaling(train_predictions, scaler, train_masks)
+train_actual_labels_original_scale = reverse_scaling(train_actual_labels, scaler, train_masks)
 
 # In[50]:
 # Plot the loss curve after training
@@ -410,205 +445,57 @@ plt.grid(True)
 plt.savefig(lossfig_path) 
 plt.show()
 plt.close()
-
+#------------------------------------------------------------------------------------------
 
 # Plot the trained data and predictions after finishing the training
 
-chunk_size = 500  # Number of samples per chunk
-total_chunks = len(train_actual_labels) // chunk_size + (1 if len(train_actual_labels) % chunk_size != 0 else 0)
-num_chunks_to_plot = 10  # Number of chunks to randomly select
+# Randomly select 3 features from the 10 available
+num_features = params_informer.enc_inp
+num_features_to_plot = 2
+num_samples_to_plot = 2
+selected_feature_indices = random.sample(range(num_features), num_features_to_plot)
 
-# Randomly select 10 unique chunk indices
-random_chunk_indices = random.sample(range(total_chunks), min(num_chunks_to_plot, total_chunks))
+# Get corresponding feature names
+selected_feature_names = [columns_without_datetime[idx] for idx in selected_feature_indices]
 
+# Randomly select 10 samples from the 3200 available
+num_samples = train_actual_labels_original_scale.shape[0]  # 3200
+selected_samples = random.sample(range(1, num_features), num_samples_to_plot)
 
-# Ensure the output folder exists
-os.makedirs(train_folder, exist_ok=True)
+# Iterate over each sample and each selected feature
+for i, sample_idx in enumerate(selected_samples):
+    actual_sample = train_actual_labels_original_scale[sample_idx]  # Shape: (180, 10)
+    prediction_sample = train_predictions_original_scale[sample_idx]  # Shape: (180, 10)
 
-# Plot each randomly selected chunk
-for i, chunk_idx in enumerate(random_chunk_indices):
-    start_idx = chunk_idx * chunk_size
-    end_idx = start_idx + chunk_size
+    for j, (feature_idx, feature_name) in enumerate(zip(selected_feature_indices, selected_feature_names)):
+        plt.figure(figsize=(12, 6))
 
-    # Slice the data for the current chunk
-    actual_chunk = train_actual_labels_original_scale[start_idx:end_idx]
-    prediction_chunk = train_predictions_original_scale[start_idx:end_idx]
+        # Plot actual vs predicted for the given feature
+        plt.plot(actual_sample[:, feature_idx], label=f'Actual {feature_name}', color='blue', alpha=0.7)
+        plt.plot(prediction_sample[:, feature_idx], label=f'Predicted {feature_name}', color='orange', alpha=0.7)
 
-    # Plot the current chunk
-    plt.figure(figsize=(14, 7))
-    plt.plot(actual_chunk, label='Actual PM2.5', color='blue', alpha=0.7)
-    plt.plot(prediction_chunk, label='Predicted PM2.5', color='orange', alpha=0.7)
-    plt.title(f'Train Predicted vs Train Actual PM2.5 Values (Chunk {i + 1})')
-    plt.xlabel('Sample Index')
-    plt.ylabel('PM2.5 Value')
-    plt.legend()
-    plt.grid(True)
+        plt.title(f'Train Prediction vs Actual (Sample {sample_idx}, Feature: {feature_name})')
+        plt.xlabel('Time Step (180)')
+        plt.ylabel(feature_name)  # Use feature name for y-axis label
+        plt.legend()
+        plt.grid(True)
 
-    # Save the plot for the current chunk
-    plot_filename = os.path.join(train_folder, f'train_pred_chunk_{i + 1}.png')
-    plt.savefig(plot_filename, dpi=600)  # Save figure
+        # Save the plot
+        plot_filename = os.path.join(train_folder, f'train_pred_sample_{sample_idx}_feature_{feature_name}.png')
+        plt.savefig(plot_filename, dpi=600)
 
-    plt.show()
-
-    # Close the current figure after displaying to avoid overlap
-    plt.close()
-
-##############################################################################################
-# In[52]:
-    
-# Valdiation Set Evaluation on best train loss model
-
-# Load the best model after training
-print(f"Loading the best model from checkpoint with train loss: {best_train_loss:.4f}")
-model.load_state_dict(torch.load(train_checkpoint_path, weights_only = True))
-
-# Set the model to evaluation mode
-model.eval()
-
-# Initialize a list to store predictions
-val_predictions = []
-val_actual_labels = []
-
-# Initialize total loss for calculating MSE over the validation set
-total_val_loss = 0.0
-
-# Path to save the validation results
-val_results_file = os.path.join(val_folder, 'validation_results.txt')
-
-# Make predictions on the validation dataset using the DataLoader
-with torch.no_grad():
-    for i, (batch_x,batch_y,batch_x_mark,batch_y_mark, batch_gt_y, batch_past_pm) in enumerate(val_loader):
-    
-        batch_x = batch_x.to('cuda' if torch.cuda.is_available() else 'cpu')
-        batch_y = batch_y.to('cuda' if torch.cuda.is_available() else 'cpu')
-        batch_x_mark = batch_x_mark.to('cuda' if torch.cuda.is_available() else 'cpu')
-        batch_y_mark = batch_y_mark.to('cuda' if torch.cuda.is_available() else 'cpu')
-        batch_gt_y = batch_gt_y.to('cuda' if torch.cuda.is_available() else 'cpu')
-        batch_past_pm = batch_past_pm.to('cuda' if torch.cuda.is_available() else 'cpu')
+        plt.show()
+        plt.close()
         
-        # Forward pass
-        pred, true = _process_one_batch(batch_x, batch_y, batch_x_mark, batch_y_mark, batch_gt_y)       
-        # loss = torch.sqrt(criterion(pred, true))
-        
-        # Compute the validation loss (MSE)
-        # val_loss = criterion(predictions, labels) #MSE Loss
-        
-        val_loss = torch.sqrt(criterion(pred, true)) #RMSE Loss
-        
-        # Accumulate the total validation loss
-        total_val_loss += val_loss.item()
-        
-        # Store predictions and actual labels for later analysis or metrics calculation
-        val_predictions.append(pred.cpu().numpy())  # Move predictions to CPU and store
-        val_actual_labels.append(true.cpu().numpy())     # Move labels to CPU and store
-        # val_actual_labels.append(true.cpu().numpy())     # Move labels to CPU and store
-        
-# Calculate the average MSE over the entire validation set
-avg_val_loss = total_val_loss / len(val_loader)
-print(f'Validation Loss (RMSE): {avg_val_loss:.4f}')
-
-# Concatenate, squeeze, and flatten predictions and labels into 1D arrays
-val_actual_labels = np.concatenate(val_actual_labels, axis=0).flatten()
-val_predictions = np.concatenate(val_predictions, axis=0).flatten()
-
-# Reverse scaling the prediction PM and actual PM values
-# Access min and max values for reverse scaling
-mins = scaler.data_min_
-maxs = scaler.data_max_
-
-# Reverse scaling for PM predictions and labels
-val_predictions_original_scale = val_predictions * (maxs[pm_index] - mins[pm_index]) + mins[pm_index]
-val_actual_labels_original_scale = val_actual_labels * (maxs[pm_index] - mins[pm_index]) + mins[pm_index]
-
-# Calculate the Mean Absolute Error (MAE) after reverse scaling
-MAE_after_rvr_sclng_val = np.mean(np.abs(val_predictions_original_scale - val_actual_labels_original_scale))
-print(f'Avg Test Loss after val reverse scaling (RMSE): {MAE_after_rvr_sclng_val:.4f}')
-
-
-# Write the validation loss to a text file
-with open(val_results_file, 'w') as f:
-    f.write(f'Validation Loss (RMSE): {avg_val_loss:.4f}\n')
-    f.write(f'Validation Loss after reverse scaling(RMSE) : {MAE_after_rvr_sclng_val:.4f}\n')
-    f.write(f'Validation Predictions Shape: {val_predictions.shape}\n')
-    f.write(f'Validation Actual Labels Shape: {val_actual_labels.shape}\n')
-
-print(f'Validation results saved to: {val_results_file}')     
-          
-# In[53]:
-    
-# Plotting all Validation predictions in a single plot
-# Plotting the Validation Predictions vs Actual PM2.5 Values
-plt.figure(figsize=(14, 7))
-plt.plot(val_actual_labels_original_scale, label='Val Actual PM2.5', color='blue', alpha=0.7)
-plt.plot(val_predictions_original_scale, label='Val Predicted PM2.5', color='orange', alpha=0.7)
-plt.title('Val Predicted vs Val Actual PM2.5 Values')
-plt.xlabel('Date-Time')
-plt.ylabel('PM2.5 Value')
-plt.legend()
-plt.grid(True)
-
-# Save the plot to the 'val_folder' with an appropriate file name
-plot_filename = os.path.join(val_folder, 'val_pred_plot.png')
-plt.savefig(plot_filename, dpi=600)  # Save figure
-
-plt.show()
-
-# Close the current figure after displaying to avoid overlap
-plt.close()
-
-#--------------------------------------------------------------------------
-# Plotting VAL SET predicitions as sequences for SINGLE-STEP predictor.
-
-# Set a fixed random seed for reproducibility
-random_seed = 42
-random.seed(random_seed)
-
-# Select 5 random sequences of length 100
-sequence_length = 300
-num_sequences = 10
-total_length = len(val_predictions)
-
-# Make sure we can select sequences within the available length
-if total_length >= sequence_length:
-    random_indices = random.sample(range(total_length - sequence_length), num_sequences)
-else:
-    raise ValueError("Not enough data points for the requested sequence length.")
-
-# Plot 5 random sequences of length 100
-for i, start_idx in enumerate(random_indices):
-    
-    plt.figure(figsize=(10, 8))
-    
-    end_idx = start_idx + sequence_length
-      
-    plt.plot(range(sequence_length), val_actual_labels_original_scale[start_idx:end_idx],
-              label=f'Actual PM2.5 (Seq {i+1})', alpha=0.7)
-    plt.plot(range(sequence_length), val_predictions_original_scale[start_idx:end_idx],
-              label=f'Predicted PM2.5 (Seq {i+1})', alpha=0.7)
-    
-    # Set title and labels
-    plt.title(f'Sequence {i+1}: val Predicted vs val Actual PM2.5 Values')
-    plt.xlabel('Date-time')
-    plt.ylabel('PM2.5 Value')
-    plt.legend()
-    plt.grid(True)
-    
-    # Save each plot with a different filename
-    plot_filename = os.path.join(val_folder, f'val predicted_vs_actual_sequence_{i+1}.png')
-    plt.savefig(plot_filename)
-    
-    plt.show()
-    # Close the plot to avoid overlapping figures
-    plt.close()
-
 ###################################################################################################
 ###################################################################################################
 ###################################################################################################
 
-#TESTING
+## TESTING LOOP
 
 #Evaluation of the TESTING Set
 model.load_state_dict(torch.load(test_checkpoint_path, weights_only = True))
+# model.load_state_dict(torch.load(train_checkpoint_path, weights_only = True))
 
 # Set the model to evaluation mode
 model.eval()
@@ -616,7 +503,9 @@ model.eval()
 # Initialize a list to store predictions
 test_predictions = []
 test_actual_labels = []
-test_act_past_pm = []
+test_masks = []
+test_past_values = []
+test_date_stamp = []
 
 # Initialize total loss for calculating MSE over the validation set
 total_test_loss = 0.0
@@ -626,60 +515,59 @@ test_results_file = os.path.join(test_folder, 'test_results.txt')
 
 # Make predictions on the validation dataset using the DataLoader
 with torch.no_grad():
-    for i, (batch_x,batch_y,batch_x_mark,batch_y_mark, batch_gt_y, batch_past_pm) in enumerate(test_loader):
+    for i, (batch_x, batch_y, batch_x_mark, batch_y_mark, batch_gt_y) in enumerate(test_loader):
     
         batch_x = batch_x.to('cuda' if torch.cuda.is_available() else 'cpu')
         batch_y = batch_y.to('cuda' if torch.cuda.is_available() else 'cpu')
         batch_x_mark = batch_x_mark.to('cuda' if torch.cuda.is_available() else 'cpu')
         batch_y_mark = batch_y_mark.to('cuda' if torch.cuda.is_available() else 'cpu')
         batch_gt_y = batch_gt_y.to('cuda' if torch.cuda.is_available() else 'cpu')
-        batch_past_pm = batch_past_pm.to('cuda' if torch.cuda.is_available() else 'cpu')
-        
+       
         # Forward pass
-        pred, true = _process_one_batch(batch_x, batch_y, batch_x_mark, batch_y_mark, batch_gt_y)
-        # test_loss = torch.sqrt(criterion(pred, true)) 
-        
-        # Compute the validation loss (MSE)
-
-        # test_loss = criterion(predictions, labels) #MSE Loss
-        
-        test_loss = torch.sqrt(criterion(pred, true)) #RMSE Loss
-        
+        pred, true, mask, test_loss = _process_one_batch(batch_x, batch_y, batch_x_mark, batch_y_mark, batch_gt_y)
+              
         # Accumulate the total validation loss
         total_test_loss += test_loss.item()
         
         # Store predictions and actual labels for later analysis or metrics calculation
         test_predictions.append(pred.cpu().numpy())  # Move predictions to CPU and store
         test_actual_labels.append(true.cpu().numpy())     # Move labels to CPU and store
-        test_act_past_pm.append(batch_past_pm.cpu().numpy())
+        test_masks.append(mask.detach().cpu().numpy())
+        test_past_values.append(batch_y.cpu().numpy())
+        test_date_stamp.append(batch_y_mark.cpu().numpy())
 
 # Calculate the average MAE over the entire test set
 avg_test_loss = total_test_loss / len(test_loader)
-print(f'Avg Test Loss before reverse scaling(RMSE): {avg_test_loss:.4f}')
+print(f'Avg Test Loss before reverse scaling(MAE): {avg_test_loss:.4f}')
 
-# # Concatenate all predictions and actual labels into a single array
-test_actual_labels = np.concatenate(test_actual_labels, axis=0).flatten()
-test_predictions = np.concatenate(test_predictions, axis=0).flatten()
-test_act_past_pm = np.concatenate(test_act_past_pm, axis=0).flatten()
+# Convert list of batches into a single NumPy array
+test_predictions = np.concatenate(test_predictions, axis=0)  # Shape: (N, 180, 10)
+test_actual_labels = np.concatenate(test_actual_labels, axis=0)  # Shape: (N, 180, 10)
+test_masks = np.concatenate(test_masks, axis=0)  # Ensure mask is also concatenated
+test_pastvalues = np.concatenate(test_past_values, axis=0)
+test_datestamp = np.concatenate(test_date_stamp, axis=0)
 
-# Reverse scaling the prediction PM and actual PM values
-# Access min and max values for reverse scaling
-mins = scaler.data_min_
-maxs = scaler.data_max_
+test_predictions_original_scale = reverse_scaling(test_predictions, scaler, np.ones_like(test_masks))  # Do NOT mask predictions
+test_actual_labels_original_scale = reverse_scaling(test_actual_labels, scaler, test_masks)  # Mask only ground truth
 
-# Reverse scaling for PM predictions and labels
-test_predictions_original_scale = test_predictions * (maxs[pm_index] - mins[pm_index]) + mins[pm_index]
-test_actual_labels_original_scale = test_actual_labels * (maxs[pm_index] - mins[pm_index]) + mins[pm_index]
-test_past_pm_original = test_act_past_pm * (maxs[pm_index] - mins[pm_index]) + mins[pm_index]
+# Ensure only ground truth remains masked
+test_actual_labels_original_scale[test_masks == 0] = np.nan  # Ground truth remains NaN where missing
+
+# Reverse scaling test_pastvalues
+# Create a mask where True (1) represents valid values, and False (0) represents NaNs
+test_pastvalues_mask = ~np.isnan(test_pastvalues)  # Shape: (N, 365, 10)
+test_pastvalues_org_scale = reverse_scaling(test_pastvalues, scaler, test_pastvalues_mask)
 
 # Calculate the Mean Absolute Error (MAE) after reverse scaling
-MAE_after_reverse_scaling = np.mean(np.abs(test_predictions_original_scale - test_actual_labels_original_scale))
-print(f'Avg Test Loss after reverse scaling (RMSE): {MAE_after_reverse_scaling:.4f}')
+valid_indices = ~np.isnan(test_predictions_original_scale) & ~np.isnan(test_actual_labels_original_scale)
+MAE_after_reverse_scaling = np.mean(np.abs(test_predictions_original_scale[valid_indices] - test_actual_labels_original_scale[valid_indices]))
+
+print(f'Avg Test Loss after reverse scaling (MAE): {MAE_after_reverse_scaling:.4f}')
 
 # Write the validation loss to a text file
 with open(test_results_file, 'w') as f:
-    f.write(f'Test Loss before reverse scaling(RMSE) : {avg_test_loss:.4f}\n')
-    f.write(f'Test Loss after reverse scaling(RMSE) : {MAE_after_reverse_scaling:.4f}\n')
+    f.write(f'Test Loss before reverse scaling(MAE) : {avg_test_loss:.4f}\n')
+    f.write(f'Test Loss after reverse scaling(MAE) : {MAE_after_reverse_scaling:.4f}\n')
     f.write(f'Test Predictions Shape: {test_predictions.shape}\n')
     f.write(f'Test Actual Labels Shape: {test_actual_labels.shape}\n')
 
@@ -687,140 +575,126 @@ print(f'Test results saved to: {test_results_file}')
         
 # In[53]:
 
-# Plotting All test predictions at a time
-# Plotting predicted vs actual values
-plt.figure(figsize=(14, 7))
-plt.plot(test_actual_labels_original_scale, label='Test Actual PM2.5', color='blue', alpha=0.7)
-plt.plot(test_predictions_original_scale, label='Test Predicted PM2.5', color='orange', alpha=0.7)
-plt.title('Test Predicted vs Test Actual PM2.5 Values')
-plt.xlabel('Date-Time')
-plt.ylabel('PM2.5 Value')
-plt.legend()
-plt.grid(True)   
+# Plotting all test predictions in seperate plots for each of the features
+test_actual_concat = test_actual_labels_original_scale.reshape(-1, params_informer.enc_inp)  
+test_pred_concat = test_predictions_original_scale.reshape(-1, params_informer.enc_inp)
 
-# Save the plot to the 'val_folder' with an appropriate file name
-plot_filename = os.path.join(test_folder, 'Test_pred_plot.png')
-plt.savefig(plot_filename, dpi=600) # Save figure
+# Plot each feature separately
+for feature_idx in range(params_informer.enc_inp):
+    plt.figure(figsize=(15, 7))
 
-plt.show()
+    # Plot all samples of actual vs predicted for each sample in the features
+    plt.plot(test_actual_concat[:, feature_idx], label=f'Actual {columns_without_datetime[feature_idx]}', color='blue', alpha=0.7)
+    plt.plot(test_pred_concat[:, feature_idx], label=f'Predicted {columns_without_datetime[feature_idx]}', color='orange', alpha=0.7)
 
-# Close the current figure after displaying to avoid overlap
-plt.close()
-
-########################################################################################
-########################################################################################
-
-# Plotting TEST SET predicitions as sequences for SINGLE-STEP predictor.
-
-# Set a fixed random seed for reproducibility
-random_seed = 42
-random.seed(random_seed)
-
-# Select 5 random sequences of length 100
-sequence_length = 300
-num_sequences = 10
-total_length = len(test_predictions)
-
-# Make sure we can select sequences within the available length
-if total_length >= sequence_length:
-    random_indices = random.sample(range(total_length - sequence_length), num_sequences)
-else:
-    raise ValueError("Not enough data points for the requested sequence length.")
-
-# Plot 5 random sequences of length 100
-for i, start_idx in enumerate(random_indices):
-    
-    plt.figure(figsize=(10, 8))
-    
-    end_idx = start_idx + sequence_length
-      
-    plt.plot(range(sequence_length), test_actual_labels_original_scale[start_idx:end_idx],
-              label=f'Actual PM2.5 (Seq {i+1})', alpha=0.7)
-    plt.plot(range(sequence_length), test_predictions_original_scale[start_idx:end_idx],
-              label=f'Predicted PM2.5 (Seq {i+1})', alpha=0.7)
-    
-    # Set title and labels
-    plt.title(f'Sequence {i+1}: Test Predicted vs Test Actual PM2.5 Values')
-    plt.xlabel('Date-time')
-    plt.ylabel('PM2.5 Value')
+    plt.title(f'Test Predictions vs Actual - {columns_without_datetime[feature_idx]}')
+    plt.xlabel('Time Step')
+    plt.ylabel(columns_without_datetime[feature_idx])
     plt.legend()
     plt.grid(True)
-    
-    # Save each plot with a different filename
-    plot_filename = os.path.join(test_folder, f'test predicted_vs_actual_sequence_{i+1}.png')
-    plt.savefig(plot_filename)
-    
+
+    # Save the plot
+    plot_filename = os.path.join(test_folder, f'test_pred_feature_{feature_idx+1}.png')
+    plt.savefig(plot_filename, dpi=600)
+
     plt.show()
-    # Close the plot to avoid overlapping figures
     plt.close()
-    
-######################################################################################
+   
+################################################################################################
 # Visualization of predicted forecast along with past values and ground truth.
 
 # Set seed for reproducibility
-random.seed(42)
+random.seed(40)
 
 # Define parameters
-past_window = params_informer.seq_len+1  # Length of past PM2.5 data
-future_steps = params_informer.pred_len  # Length of predicted & actual data
-total_window = past_window + future_steps  # Total length in plot
-num_plots = 10  # Number of plots to generate
-total_length = len(test_predictions_original_scale)  # Ensure valid sampling range
+num_features = params_informer.enc_inp  # Total number of features
+num_samples_to_plot = params_informer.num_samples_to_plot # Number of random samples to plot
+total_samples = test_predictions_original_scale.shape[0]  # Total available test samples
 
-# Ensure we have enough data points
-if total_length < (num_plots * future_steps):
-    raise ValueError("Not enough test data points for the requested plot length.")
+# Randomly select samples for plotting
+selected_samples = random.sample(range(total_samples), num_samples_to_plot)
 
-# Sequential start points
-past_start_indices = np.arange(0, num_plots * past_window, past_window)
-forecast_start_indices = np.arange(0, num_plots * future_steps, future_steps)
+# Define the specific features to plot
+selected_feature_names = params_informer.feat_for_plotting
 
-# Create plots
-for i, (past_start_idx, future_start_idx) in enumerate(zip(past_start_indices, forecast_start_indices)):
-    plt.figure(figsize=(8, 6))
+# Get corresponding indices from columns_without_datetime
+selected_feature_indices = [columns_without_datetime.index(feature) for feature in selected_feature_names]
+
+# Iterate over selected samples and features
+for sample_idx in selected_samples:
+    # Extract relevant data for the selected sample
+    past_values = test_pastvalues_org_scale[sample_idx]
+    actual_values = test_actual_labels_original_scale[sample_idx]  
+    predicted_values = test_predictions_original_scale[sample_idx] 
+
+    # Insert the first actual value at index 91 in past_values
+    past_values_extended = np.vstack((past_values[:params_informer.label_len, :], actual_values[0, :], past_values[params_informer.label_len:, :])) 
     
-    # Define past & future indices
-    past_end_idx = past_start_idx + past_window  # End of past window
-    future_end_idx = future_start_idx + future_steps # End of future window
+    # Extract past_values_modified (0 to 91 indices)
+    past_values_modified = past_values_extended[:params_informer.label_len+1, :] 
     
-    # Extract past PM2.5 values (196 steps)
-    past_pm25 = test_past_pm_original[past_start_idx:past_end_idx]
+    for feature_idx, feature_name in zip(selected_feature_indices, selected_feature_names):
+        plt.figure(figsize=(12, 6))
 
-    # Extract future actual PM2.5 values (24 steps)
-    actual_future_pm25 = test_actual_labels_original_scale[future_start_idx:future_end_idx]
+        # Define time axes 
+        time_steps_past = np.arange(1, params_informer.label_len+1)  # Past time steps
+        time_steps_future = np.arange(params_informer.label_len+1, params_informer.label_len+1 + params_informer.pred_len)
+        
+        #----------------------------------------------------------------------------------
+        # # Code for extracting datetime stamps for plotting
+        # # Extract the correct timestamps for the selected sample
+        # time_steps_past = test_dec_org_datestamp[sample_idx, 1:params_informer.label_len+1, 0]      
+        # time_steps_future = test_op_org_datestamp[sample_idx, :, 0]  # all gt timestamps
+        #----------------------------------------------------------------------------------
+        
+        # Create mask for valid (non-NaN) past values
+        valid_past_mask = ~np.isnan(past_values_modified[1:, feature_idx])            
+        
+        # Conditionally switch between scatter and plot
+        if params_informer.nan_fraction > 0.75:
+            # Use scatter for highly sparse data
+            plt.scatter(time_steps_past[valid_past_mask], 
+                        past_values_modified[1:, feature_idx][valid_past_mask], 
+                        label=f'Past {feature_name}', color='blue', alpha=0.7, marker='o')
+        else:
+            # Use line plot for less sparse data
+            plt.plot(time_steps_past, past_values_modified[1:, feature_idx], 
+                     label=f'Past {feature_name}', color='blue', alpha=0.7)
 
-    # Extract future predicted PM2.5 values (24 steps)
-    predicted_future_pm25 = test_predictions_original_scale[future_start_idx:future_end_idx]
+        # Plot actual future values
+        plt.plot(time_steps_future, actual_values[:, feature_idx], 
+                 label=f'Actual {feature_name}', color='green', alpha=0.7)
 
-    # Ensure correct shapes
-    assert len(past_pm25) == past_window, f"Past PM2.5 length mismatch: {len(past_pm25)}"
-    assert len(actual_future_pm25) == future_steps, f"Actual future PM2.5 length mismatch: {len(actual_future_pm25)}"
-    assert len(predicted_future_pm25) == future_steps, f"Predicted future PM2.5 length mismatch: {len(predicted_future_pm25)}"
+        # Plot predicted future values (dashed line)
+        plt.plot(time_steps_future, predicted_values[:, feature_idx], 
+                 label=f'Predicted {feature_name}', color='red', linestyle='dashed', alpha=0.9)
 
-    # Create timeline for x-axis
-    time_steps_past = np.arange(0, past_window) + 1 
-    time_steps_future = np.arange(past_window, total_window)
+        #--------------------------------------------------------------------------------------------
+        # # Code to Include Date Time Stamps on the x-axis
+        # # Select every 30th timestamp for labeling
+        # tick_indices = np.arange(0, len(time_steps_past) + len(time_steps_future), 31)
+        # tick_labels = np.concatenate([time_steps_past, time_steps_future])[tick_indices]
+               
+        # # Convert timestamps to datetime format
+        # formatted_dates = [pd.to_datetime(ts) for ts in tick_labels]
+        
+        # # Format into two-line strings: "YYYY-MM-DD\nHH:MM"
+        # formatted_labels = [date.strftime('%Y-%m-%d\n%H:%M') for date in formatted_dates]
+        
+        # # Apply formatted labels
+        # plt.xticks(tick_labels, formatted_labels, rotation=45, ha="center")  # Center-align
+        #--------------------------------------------------------------------------------------------
+        
+        # Labels and title
+        plt.title(f'Test Prediction vs Actual (Sample {sample_idx}, Feature: {feature_name})')
+        plt.xlabel('Time Steps')
+        plt.ylabel(feature_name)
+        plt.legend()
+        plt.grid(True)
 
-    # Plot past PM2.5 values
-    plt.plot(time_steps_past, past_pm25, label="Past PM2.5", color="blue", alpha=0.7)
+        # Save plot
+        plot_filename = os.path.join(test_folder, f'test_pred_sample_{sample_idx}_feature_{feature_name}.png')
+        plt.savefig(plot_filename, dpi=600)
 
-    # Plot actual future PM2.5 values
-    plt.plot(time_steps_future, actual_future_pm25, label="Actual PM2.5", color="green", alpha=0.7)
-    
-    # Plot predicted future PM2.5 values
-    plt.plot(time_steps_future, predicted_future_pm25, label="Predicted PM2.5", color="red", linestyle="dashed", alpha=0.9)
-
-    # Labels and title
-    plt.title(f"Forecasting Visualization - Sample {i+1}")
-    plt.xlabel("Time Steps")
-    plt.ylabel("PM2.5 Value")
-    plt.legend()
-    plt.grid(True)
-
-    # Save plot
-    plot_filename = os.path.join(test_folder, f"forecast_plot_{i+1}.png")
-    plt.savefig(plot_filename)
-
-    # Show and close figure
-    plt.show()
-    plt.close()    
+        plt.show()
+        plt.close()

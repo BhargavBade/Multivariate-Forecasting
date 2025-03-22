@@ -1,7 +1,5 @@
 import os
 from datetime import datetime
-import torch
-import matplotlib.pyplot as plt
 
 # Create a folder named with the current DateTime in the Results folder
 def create_study_folder(base_dir='./Results'):

@@ -3,10 +3,10 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 from Network.utils.masking import TriangularCausalMask, ProbMask
-from Network.models.encoder import Encoder, EncoderLayer, ConvLayer, EncoderStack
-from Network.models.decoder import Decoder, DecoderLayer
-from Network.models.attn import FullAttention, ProbAttention, AttentionLayer
-from Network.models.embed import DataEmbedding
+from Network.Inf_network.encoder import Encoder, EncoderLayer, ConvLayer, EncoderStack
+from Network.Inf_network.decoder import Decoder, DecoderLayer
+from Network.Inf_network.attn import FullAttention, ProbAttention, AttentionLayer
+from Network.Inf_network.embed import DataEmbedding
 
 class Informer(nn.Module):
     def __init__(self, enc_in, dec_in, c_out, seq_len, label_len, out_len, 
