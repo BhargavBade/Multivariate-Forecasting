@@ -84,7 +84,7 @@ data_preparer = DataPreparer(data_dir='./01_PM2.5 Chinese Weather data')
 (train_enc_tensor, train_dec_tensor, train_en_dtstamp_tns, train_dec_dtstamp_tns, train_op_gt,
  val_enc_tensor, val_dec_tensor, val_en_dtstamp_tns, val_dec_dtstamp_tns, val_op_gt,
  test_enc_tensor, test_dec_tensor, test_en_dtstamp_tns, test_dec_dtstamp_tns, test_op_gt,
- test_dec_org_datestamp, test_op_org_datestamp, scaler, column_names) = data_preparer.prepare_data()
+ test_dec_org_datestamp, test_op_org_datestamp, scaler, column_names, col_ind) = data_preparer.prepare_data()
 
 # Remove the first four column names
 columns_without_datetime = column_names[4:]
@@ -100,7 +100,7 @@ print("Test data tensor shape:", test_enc_tensor.shape)
 print("Test labels tensor shape:", test_op_gt.shape)
 
 # In[45]:
-
+ 
 # Prepare the datasets and dataloaders
 
 class InformerDataset(Dataset):
@@ -228,8 +228,6 @@ def _process_one_batch(batch_x, batch_y, batch_x_mark, batch_y_mark, batch_gt_y)
 
     # Forward pass
     outputs = model(batch_x, batch_x_mark, batch_y, batch_y_mark)
-
-    # Keep outputs **as is** for visualization
     outputs = outputs.squeeze(-1)
 
     # Apply mask **only for loss calculation**, not for saving predictions
@@ -238,7 +236,47 @@ def _process_one_batch(batch_x, batch_y, batch_x_mark, batch_y_mark, batch_gt_y)
     return outputs, batch_gt_y, mask, loss
 
 # In[46]:
+    
+# This function is useful when we want to calculate loss of only certain features in the dataset 
+# (excluding some of the input features for loss caculation) 
 
+column_indices = col_ind
+def _process_one_batch_test(batch_x, batch_y, batch_x_mark, batch_y_mark, batch_gt_y):
+    """ Forward pass through the model during testing, calculating loss only for selected features. """
+    
+    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+    batch_x = batch_x.float().to(device)
+    batch_y = batch_y.float().to(device)
+    batch_x_mark = batch_x_mark.float().to(device)
+    batch_y_mark = batch_y_mark.float().to(device)
+    batch_gt_y = batch_gt_y.float().to(device)
+
+    # Create mask for NaNs (1 for valid values, 0 for NaNs)
+    mask = torch.isnan(batch_gt_y)  # Boolean mask (True where NaN, False where valid)
+    mask = (~mask).float()  # Convert to float (1 for valid, 0 for NaNs)
+
+    # Replace NaNs with 0s in input tensors
+    batch_x = torch.nan_to_num(batch_x, nan=0.0)
+    batch_y = torch.nan_to_num(batch_y, nan=0.0)
+    batch_gt_y = torch.nan_to_num(batch_gt_y, nan=0.0)
+
+    # Forward pass
+    outputs = model(batch_x, batch_x_mark, batch_y, batch_y_mark)
+    outputs = outputs.squeeze(-1)
+
+    # Select only specific feature indices
+    selected_outputs = outputs[:, :, column_indices]  # Selecting specific feature columns
+    selected_gt_y = batch_gt_y[:, :, column_indices]  # Selecting same columns in ground truth
+
+    # Apply mask only for the selected features
+    selected_mask = mask[:, :, column_indices]
+
+    # Calculate loss only on selected features
+    loss = criterion(selected_outputs * selected_mask, selected_gt_y * selected_mask)
+
+    return outputs, batch_gt_y, mask, loss  # Return full outputs but loss for selected features only
+
+# #----------------------------------------------------------------------------------------------
 # Define model, loss function, and optimizer
 
 enc_inp = params_informer.enc_inp  # number of features
@@ -249,7 +287,6 @@ c_out = params_informer.c_out  # output size (1 for regression, could be differe
 model = Informer(enc_inp, dec_inp, c_out, seq_len, label_len, pred_len, device = device).to(device)
 
 # # Loss and optimizer
-# criterion = nn.MSELoss() # Mean Square Error (MSE)
 criterion = nn.L1Loss() # Mean Absolute Error (MAE)
 
 optimizer = optim.Adam(model.parameters(), lr = params_informer.lr)
@@ -360,9 +397,9 @@ for epoch in range(num_epochs):
                 batch_y_mark = batch_y_mark.to('cuda' if torch.cuda.is_available() else 'cpu')
                 batch_gt_y = batch_gt_y.to('cuda' if torch.cuda.is_available() else 'cpu')
 
-                # Forward pass
+                # Forward pass           
                 pred, true, mask, loss = _process_one_batch(batch_x, batch_y, batch_x_mark, batch_y_mark, batch_gt_y)
-                
+            
                 running_val_loss += loss.item()               
                 
         # Compute average test loss for the epoch
@@ -436,7 +473,7 @@ train_actual_labels_original_scale = reverse_scaling(train_actual_labels, scaler
 
 lossfig_path = os.path.join(train_folder, 'loss_curve.png')
 plt.figure(figsize=(8, 6))
-plt.plot(range(1, num_epochs + 1), loss_values, label='Training Loss')
+plt.plot(range(1, len(loss_values)+1), loss_values, label='Training Loss')
 plt.xlabel('Epoch')
 plt.ylabel('Loss')
 plt.title('Training Loss Curve')
@@ -524,8 +561,11 @@ with torch.no_grad():
         batch_gt_y = batch_gt_y.to('cuda' if torch.cuda.is_available() else 'cpu')
        
         # Forward pass
-        pred, true, mask, test_loss = _process_one_batch(batch_x, batch_y, batch_x_mark, batch_y_mark, batch_gt_y)
-              
+        pred, true, mask, test_loss = _process_one_batch(batch_x, batch_y, batch_x_mark, batch_y_mark, batch_gt_y)              
+        
+        # # Use the following if we need to calculate loss of only certain features
+        # pred, true, mask, test_loss = _process_one_batch_test(batch_x, batch_y, batch_x_mark, batch_y_mark, batch_gt_y)
+        
         # Accumulate the total validation loss
         total_test_loss += test_loss.item()
         
@@ -561,6 +601,18 @@ test_pastvalues_org_scale = reverse_scaling(test_pastvalues, scaler, test_pastva
 # Calculate the Mean Absolute Error (MAE) after reverse scaling
 valid_indices = ~np.isnan(test_predictions_original_scale) & ~np.isnan(test_actual_labels_original_scale)
 MAE_after_reverse_scaling = np.mean(np.abs(test_predictions_original_scale[valid_indices] - test_actual_labels_original_scale[valid_indices]))
+
+# #-------------------------------------------------------------------------------------------
+# # These steps should be included when we want to calcuate loss of only certain features
+
+# # Extract only the selected feature indices for evaluation
+# test_predictions_selected = test_predictions_original_scale[:, :, column_indices]
+# test_actual_labels_selected = test_actual_labels_original_scale[:, :, column_indices]
+
+# # Compute Mean Absolute Error (MAE) only for the selected features
+# valid_indices = ~np.isnan(test_predictions_selected) & ~np.isnan(test_actual_labels_selected)
+# MAE_after_reverse_scaling = np.mean(np.abs(test_predictions_selected[valid_indices] - test_actual_labels_selected[valid_indices]))
+# #------------------------------------------------------------------------------------------
 
 print(f'Avg Test Loss after reverse scaling (MAE): {MAE_after_reverse_scaling:.4f}')
 

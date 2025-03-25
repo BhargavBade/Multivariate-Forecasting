@@ -14,16 +14,17 @@ lr = 0.0001
 num_epochs = 150
 
 # Number of epochs to wait before stopping the training if no improvement in the val loss
-early_stop_patience = 15
+early_stop_patience = 10
 # Number of training epochs to skip for saving the model
 warmup_epochs = 15  
 
 # Features to feed into the network
 total_feat = 14 #["year", "month", "day", "hour", "season", "cbwd", 'PM',  
-                 # "precipitation", "DEWP", 'HUMI', 'PRES', 'TEMP', "Iprec", "Iws" ]
+                 # "precipitation", "DEWP", 'HUMI', 'PRES', 'TEMP', "Iprec", "Iws"]
                  
 # Selected Features to drop from the total features
 no_of_drop_feat = 4
+# drop_feat = [] # No features to drop
 drop_feat = ["cbwd", "Iws", "precipitation", "Iprec"]
 
 # Features reamining after dropping some features from the data

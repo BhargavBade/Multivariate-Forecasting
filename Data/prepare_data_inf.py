@@ -66,8 +66,17 @@ class DataPreparer:
              
         # Extract column names in order
         column_names = new_data.columns.tolist()
+        
+        # Columns in the dataset without date-time columns
+        column_names_without_dt = column_names[4:]  # Slicing from index 4 onward
+        
+        # This step useful when we want to calculate loss for only the target cols out of all cols        
+        target_columns = ["season", "PM", "DEWP", "HUMI", "PRES", "TEMP"]
+        
+        # Get indices of the target columns in column_names_without_dt
+        target_column_indices = [column_names_without_dt.index(col) for col in target_columns if col in column_names_without_dt]
                       
-        return new_data, column_names
+        return new_data, column_names, target_column_indices
     
     def introduce_nans(self, data, nan_fraction=params_informer.nan_fraction):
         """
@@ -351,7 +360,7 @@ class DataPreparer:
         cities_data_path_list = os.listdir(self.data_dir)
         sample_data_path = os.path.join(self.data_dir, cities_data_path_list[0])
         raw_data = self.load_data(sample_data_path)
-        processed_data, column_names = self.clean_and_process_data(raw_data)
+        processed_data, column_names, target_column_indices = self.clean_and_process_data(raw_data)
         
         # Sorting the data into various time series sets
         time_series_data = self.sort_time_series(processed_data)
@@ -422,12 +431,14 @@ class DataPreparer:
         test_dec_org_dtstmp = np.array(dec_test_org_dtst)
         test_op_org_dtstmp = np.array(op_test_org_dtst)
         
-        scaler = scaler
+        scaler = scaler      
+        column_names = column_names
+        target_column_indices = target_column_indices
 
         return (train_enc_tensor, train_dec_tensor, train_enc_mark_tns, train_dec_mark_tns, train_output_gt,
                 val_enc_tensor, val_dec_tensor, val_enc_mark_tns, val_dec_mark_tns, val_output_gt,
                 test_enc_tensor, test_dec_tensor, test_enc_mark_tns, test_dec_mark_tns, test_output_gt, 
-                test_dec_org_dtstmp, test_op_org_dtstmp, scaler, column_names)
+                test_dec_org_dtstmp, test_op_org_dtstmp, scaler, column_names, target_column_indices)
     
                
 # # To try the DataPreparer class

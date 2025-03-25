@@ -4,7 +4,7 @@ save_data_on_exit = True
 save_history = True
 save_non_project_files = False
 project_type = 'empty-project-type'
-recent_files = ['params_sparse_data.py', 'Data\\prepare_data_sparse.py', 'Data\\prepare_data_inf.py', 'train_test_informer.py']
+recent_files = ['params_informer.py', 'Data\\prepare_data_inf.py', 'train_test_informer.py']
 
 [main]
 version = 0.2.0
